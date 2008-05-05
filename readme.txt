@@ -28,7 +28,7 @@ The tags accept a number of parameters. Justification, Width, Aspect Ratio and a
 
 This will embed a youtube video left justified with a width of 340, aspect ratio of 16:9 and the blurb of "This is my test blurb" as its link.
 
-Ordering of these parameters does not matter, and no, its not case sensative.
+Ordering of these parameters does not matter, and no, its not case sensitive.
 
 == Installation ==
 
