@@ -1,6 +1,6 @@
 === Video Bracket Tag ===
 Contributors: BobGneu
-Donate link: http://example.com/
+Donate link: http://blog.gneu.org/software-releases/video-bracket-tags/
 Tags: video, formatting, embed
 Requires at least: 2.5.0
 Tested up to: 2.5.1
