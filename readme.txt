@@ -6,7 +6,7 @@ Requires at least: 2.5.0
 Tested up to: 2.5.1
 Stable tag: N/A
 
-Insert videos into posts using bracket method. Currently supported video formats include BrightCove, Google, LiveLeak, Vimeo, Veoh, Youtube and Youtube Custom Players
+Insert videos into posts using bracket method. Currently supported video formats include Blip.tv, BrightCove, Google, LiveLeak, RevveR, Vimeo, Veoh, Youtube and Youtube Custom Players
 
 == Description ==
 
@@ -18,6 +18,7 @@ The current supported formats are:
 * **BrightCove** [brightcove={ID}]
 * **Google Video** [google={ID}]
 * **LiveLeak** [liveleak={ID}]
+* **RevveR** [revver={ID}]
 * **Veoh** [veoh={ID}]
 * **Vimeo** [vimeo={ID}]
 * **Youtube** [youtube={ID}]
@@ -58,9 +59,22 @@ The only thing that has come up that throws this off, at least thus far, is a fa
 = Can you add {xyz} video player? =
 I sure as hell can (probably...)! The process is quite simple and my turn around time is usually just a few hours. Just leave me a message and let me know which players are needed.
 
+= What do you have planned for this? =
+
+Ultimately i see this plugin moving towards being more abstract. I dont foresee the embedding of video to be a situation where we have to embed them expressly, although i do like the current number of tags and how they are all separated. 
+
+Adding an abstract [object][/object] may be useful, as well as an [embed][/embed] tag, for those as yet unsupported tags that people aren't asking for. 
+
+We'll see where the populous wants this plugin to go. =)
+
 == Change Log ==
 
-= Version 2.0.1
+= Version 2.0.2 =
+
+* Added RevveR
+* Corrected some code (simplification)
+
+= Version 2.0.1 =
 
 * Added Blip.tv
 * Expanded on description to include information about the parameters

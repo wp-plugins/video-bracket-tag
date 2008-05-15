@@ -3,16 +3,16 @@
 
 Plugin Name: Video Bracket Tag
 Plugin URI: http://blog.gneu.org/software-releases/video-bracket-tags/
-Description: Insert videos into posts using bracket method. Currently supported video formats include BrightCove, Google, LiveLeak, Vimeo, Veoh, Youtube and Youtube Custom Players
+Description: Insert videos into posts using bracket method. Currently supported video formats include Blip.tv, BrightCove, Google, LiveLeak, RevveR, Vimeo, Veoh, Youtube and Youtube Custom Players
 Author: Bob Chatman
-Version: 2.0.1
+Version: 2.0.2
 Author URI: http://blog.gneu.org
 
 */ 
 
 	class VideoParser
 	{
-		private static $Tags = array("youtube", "youtubecp", "google", "vimeo", "liveleak", "veoh", "brightcove", "bliptv");
+		private static $Tags = array("youtube", "youtubecp", "google", "vimeo", "liveleak", "veoh", "brightcove", "bliptv", "revver");
 		private static $MaxWidth = 512;
 		private static $MaxHeight = 512;
 
@@ -186,7 +186,7 @@ Author URI: http://blog.gneu.org
 			$end       = substr($content, $e_pos + 1 );
 			$entry     = substr($content, $s_pos, $e_pos - $s_pos + 1);
 			
-			$embed     = @call_user_func(array('VideoParser', "{$tag}{$func}"), $entry);
+			$embed     = @call_user_func(array('VideoParser', "{$tag}{$func}"), VideoParser::getElements($entry));
 
 			if ($embed !== false)
 				$content = $beginning . $embed . $end;
@@ -230,11 +230,11 @@ Author URI: http://blog.gneu.org
 			return $content;
 		}
 		
-		function youtube_Content($entry)
-		{
-			$arr = VideoParser::getElements($entry);
-			
-			$arr['BLURB'] |= "Direct Link";
+/* Begin Content Function Section ****************************************************************************/
+		
+		function youtube_Content($arr)
+		{			
+			$arr['BLURB'] |= "Direct Link to YouTube [{$arr['ID']}]";
 				
 			return VideoParser::getJustification($arr) . "<object width='" . VideoParser::getWidth($arr['RATIO'], $arr['SIZE']) . "' height='" . VideoParser::getHeight($arr['RATIO'], $arr['SIZE']) . "'>
 						<param name='movie' value='{$arr['ID']}'></param>
@@ -243,11 +243,9 @@ Author URI: http://blog.gneu.org
 					 </object>" . ( $arr['LINK'] ? "<br /><center><a href='http://www.youtube.com/watch?v={$arr['ID']}&eurl={$_SERVER['SCRIPT_URI']}'>{$arr['BLURB']}</a></center>" : "" ) . VideoParser::getEndJustification($arr);
 		}
 			
-		function youtubecp_Content($entry)
-		{
-			$arr = VideoParser::getElements($entry);
-	
-			$arr['BLURB'] |= "Direct Link";
+		function youtubecp_Content($arr)
+		{	
+			$arr['BLURB'] |= "Direct Link to YouTube [{$arr['ID']}]";
 			
 			return VideoParser::getJustification($arr['RATIO'], $arr['SIZE']) . "<object width='" . VideoParser::getWidth($arr['RATIO'], $arr['SIZE']) . "' height='" . VideoParser::getHeight($arr['RATIO']) . "'>
 						<param name='movie' value='{$arr['ID']}'></param>
@@ -256,22 +254,18 @@ Author URI: http://blog.gneu.org
 					</object>" . ( $arr['LINK'] ? "<br /><center><a href='http://www.youtube.com/cp/{$arr['ID']}'>{$arr['BLURB']}</a></center>" : "" ) . VideoParser::getEndJustification($arr);
 		}
 
-		function google_Content($entry)
+		function google_Content($arr)
 		{
-			$arr = VideoParser::getElements($entry);
-
-			$arr['BLURB'] |= "Direct Link";
+			$arr['BLURB'] |= "Direct Link to Google [{$arr['ID']}]";
 
 			return VideoParser::getJustification($arr) . "<embed style='width:" . VideoParser::getWidth($arr['RATIO'], $arr['SIZE']) . "px; height:" . VideoParser::getHeight($arr['RATIO'], $arr['SIZE']) . "px' src='http://video.google.com/googleplayer.swf?docId={$arr['ID']}' id='VideoPlayback' type='application/x-shockwave-flash' quality='best' bgcolor='#ffffff' scale='noScale' salign='TL' flashvars='playerMode=embedded' align='middle'></embed>
 			" . ( $arr['LINK'] ? "<br /><center><a href='http://video.google.com/videoplay?docid={$arr['ID']}&hl=en'>{$arr['BLURB']}</a></center>" : "" ) . VideoParser::getEndJustification($arr);
 		}
 
-		function vimeo_Content($entry)
+		function vimeo_Content($arr)
 		{
-			$arr = VideoParser::getElements($entry);
-
-			$arr['BLURB'] |= "Direct Link to Vimeo";
-			// "Direct Link To Vimeo Video [{$arr['ID']}]";
+			$arr['BLURB'] |= "Direct Link to Vimeo [{$arr['ID']}]";
+			
 			return VideoParser::getJustification($arr) . "<object type='application/x-shockwave-flash' width='" . VideoParser::getWidth($arr['RATIO'], $arr['SIZE']) . "' height='" . VideoParser::getHeight($arr['RATIO'], $arr['SIZE']) . "' data='http://www.vimeo.com/moogaloop.swf?clip_id={$arr['ID']}&amp;server=www.vimeo.com&amp;fullscreen=1&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color='>
 			 <param name='quality' value='best' />
 			 <param name='allowfullscreen' value='true' />
@@ -281,118 +275,115 @@ Author URI: http://blog.gneu.org
 			 " . ( $arr['LINK'] ? "<br /><center><a href='http://www.vimeo.com/{$arr['ID']}'>{$arr['BLURB']}</a></center>" : "" ) . VideoParser::getEndJustification($arr);
 		}
 
-		function liveleak_Content($entry)
+		function liveleak_Content($arr)
 		{
-			$arr = VideoParser::getElements($entry);
-
-			$arr['BLURB'] |= "Direct Link to LiveLeak";
+			$arr['BLURB'] |= "Direct Link to LiveLeak [{$arr['ID']}]";
 
 			return VideoParser::getJustification($arr) . "<embed src='http://www.liveleak.com/e/{$arr['ID']}' width='" . VideoParser::getWidth($arr['RATIO'], $arr['SIZE']) . "' height='" . VideoParser::getHeight($arr['RATIO'], $arr['SIZE']) . "' type='application/x-shockwave-flash' pluginspage='http://www.macromedia.com/go/getflashplayer' scale='showall' name='index'></embed>
 			" . ( $arr['LINK'] ? "<br /><center><a href='http://video.google.com/videoplay?docid={$arr['ID']}&hl=en'>{$arr['BLURB']}</a></center>" : "" ) . VideoParser::getEndJustification($arr);
 		}
 
-		function veoh_Content($entry)
+		function veoh_Content($arr)
 		{
-			$arr = VideoParser::getElements($entry);
-
-			$arr['BLURB'] |= "Direct Link to Veoh";
+			$arr['BLURB'] |= "Direct Link to Veoh [{$arr['ID']}]";
 
 			return VideoParser::getJustification($arr) . "<embed src='http://www.veoh.com/videodetails2.swf?player=videodetailsembedded&type=v&permalinkId={$arr['ID']}' width='" . VideoParser::getWidth($arr['RATIO'], $arr['SIZE']) . "' height='" . VideoParser::getHeight($arr['RATIO'], $arr['SIZE']) . "' type='application/x-shockwave-flash' pluginspage='http://www.macromedia.com/go/getflashplayer'></embed>
 			" . ( $arr['LINK'] ? "<br /><center><a href='http://video.google.com/videoplay?docid={$arr['ID']}&hl=en'>{$arr['BLURB']}</a></center>" : "" ) . VideoParser::getEndJustification($arr);
 		}
 
-		function brightcove_Content($entry)
+		function brightcove_Content($arr)
 		{
-			$arr = VideoParser::getElements($entry);
-
-			$arr['BLURB'] |= "Direct Link to BrightCove";
+			$arr['BLURB'] |= "Direct Link to BrightCove [{$arr['ID']}]";
 
 			return VideoParser::getJustification($arr) . "<embed src='http://www.brightcove.tv/playerswf' bgcolor='#FFFFFF' flashVars='initVideoId={$arr['ID']}&servicesURL=http://www.brightcove.tv&viewerSecureGatewayURL=https://www.brightcove.tv&cdnURL=http://admin.brightcove.com&autoStart=false' base='http://admin.brightcove.com' name='bcPlayer' width='" . VideoParser::getWidth($arr['RATIO'], $arr['SIZE']) . "' height='" . VideoParser::getHeight($arr['RATIO'], $arr['SIZE']) . "' allowFullScreen='true' allowScriptAccess='always' seamlesstabbing='false' type='application/x-shockwave-flash' swLiveConnect='true' pluginspage='http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash'></embed>
 			" . ( $arr['LINK'] ? "<br /><center><a href='http://www.brightcove.tv/title.jsp?title={$arr['ID']}'>{$arr['BLURB']}</a></center>" : "" ) . VideoParser::getEndJustification($arr);
 		}
 
-		function bliptv_Content($entry)
+		function bliptv_Content($arr)
 		{
-			$arr = VideoParser::getElements($entry);
-
-			$arr['BLURB'] |= "Direct Link to Blip.tv";
+			$arr['BLURB'] |= "Direct Link to Blip.tv [{$arr['ID']}]";
 
             return VideoParser::getJustification($arr) . "<embed src='http://blip.tv/play/{$arr['ID']}' type='application/x-shockwave-flash' width='" . VideoParser::getWidth($arr['RATIO'], $arr['SIZE']) . "' height='" . VideoParser::getHeight($arr['RATIO'], $arr['SIZE']) . "' allowscriptaccess='always' allowfullscreen='true' /></embed>
             " . ( $arr['LINK'] ? "<br /><center><a href='http://blip.tv/file/{$arr['ID']}'>{$arr['BLURB']}</a></center>" : "" ) . VideoParser::getEndJustification($arr);
 		}
-
-		function youtube_Excerpt($entry)
+		
+		function revver_Content($arr)
 		{
-			$arr = VideoParser::getElements($entry);
+			$arr['BLURB'] |= "Direct Link to RevveR [{$arr['ID']}]";
+			
+			return VideoParser::getJustification($arr) . "<object width='" . VideoParser::getWidth($arr['RATIO'], $arr['SIZE']) . "' height='" . VideoParser::getHeight($arr['RATIO'], $arr['SIZE']) . "' data='http://flash.revver.com/player/1.0/player.swf?mediaId={$arr['ID']}' type='application/x-shockwave-flash'>
+			<param name='Movie' value='http://flash.revver.com/player/1.0/player.swf?mediaId={$arr['ID']}'></param>
+			<param name='FlashVars' value='allowFullScreen=true'></param>
+			<param name='AllowFullScreen' value='true'></param>
+			<param name='AllowScriptAccess' value='always'></param>
+			<embed type='application/x-shockwave-flash' src='http://flash.revver.com/player/1.0/player.swf?mediaId={$arr['ID']}' pluginspage='http://www.macromedia.com/go/getflashplayer' allowScriptAccess='always' flashvars='allowFullScreen=true' allowfullscreen='true' width='" . VideoParser::getWidth($arr['RATIO'], $arr['SIZE']) . "' height='" . VideoParser::getHeight($arr['RATIO'], $arr['SIZE']) . "'></embed>
+			</object>" . ( $arr['LINK'] ? "<br /><center><a href='http://www.revver.com/video/{$arr['ID']}'>{$arr['BLURB']}</a></center>" : "" ) . VideoParser::getEndJustification($arr);
+		}
 
+/* Begin Excerpt Function Section ****************************************************************************/
+
+		function youtube_Excerpt($arr)
+		{
 			$arr['BLURB'] |= "Direct Link To Yahoo Video [{$arr['ID']}]";
 
 			return VideoParser::getJustification($arr) . "<a href='http://www.youtube.com/watch?v={$arr['ID']}&eurl={$_SERVER['SCRIPT_URI']}'>{$arr['BLURB']}</a>" . VideoParser::getEndJustification($entry);
 		}
 
-		function youtubecp_Excerpt($entry)
+		function youtubecp_Excerpt($arr)
 		{
-			$arr = VideoParser::getElements($entry);
-
-			$arr['BLURB'] |= "Direct Link To Yahoo Custom Player";
+			$arr['BLURB'] |= "Direct Link To Yahoo Custom Player [{$arr['ID']}]";
 
 			return VideoParser::getJustification($arr) . "<a href='http://www.youtube.com/cp/{$arr['ID']}'>{$arr['BLURB']}</a>" . VideoParser::getEndJustification($arr);
 		}
 
-		function google_Excerpt($entry)
-		{
-			$arr = VideoParser::getElements($entry);
-	
-			$arr['BLURB'] |= "Direct Link To Google Video";
+		function google_Excerpt($arr)
+		{	
+			$arr['BLURB'] |= "Direct Link To Google Video [{$arr['ID']}]";
 	
 			return VideoParser::getJustification($arr) . "<a href='http://video.google.com/videoplay?docid={$arr['ID']}&hl=en'>{$arr['BLURB']}</a>" . VideoParser::getEndJustification($arr);
 		}
 	
-		function vimeo_Excerpt($entry)
-		{
-			$arr = VideoParser::getElements($entry);
-	
+		function vimeo_Excerpt($arr)
+		{	
 			$arr['BLURB'] |= "Direct Link To Vimeo Video [{$arr['ID']}]";
 	
 			return VideoParser::getJustification($arr) . "<a href='http://www.vimeo.com/{$arr['ID']}'>{$arr['BLURB']}</a>" . VideoParser::getEndJustification($arr);
 		}	
 		
-		function liveleak_Excerpt($entry)
-		{
-			$arr = VideoParser::getElements($entry);
-	
+		function liveleak_Excerpt($arr)
+		{	
 			$arr['BLURB'] |= "Direct Link To LiveLeak Video [{$arr['ID']}]";
 	
 			return VideoParser::getJustification($arr) . "<a href='http://www.liveleak.com/view?i={$arr['ID']}'>{$arr['BLURB']}</a>" . VideoParser::getEndJustification($arr);
 		}
 		
-		function veoh_Excerpt($entry)
-		{
-			$arr = VideoParser::getElements($entry);
-	
+		function veoh_Excerpt($arr)
+		{	
 			$arr['BLURB'] |= "Direct Link To Veoh Video [{$arr['ID']}]";
 		
 			return VideoParser::getJustification($arr) . "<a href='http://www.veoh.com/videos/{$arr['ID']}'>{$arr['BLURB']}</a>" . VideoParser::getEndJustification($arr);
 		}
 		
-		function brightcove_Excerpt($entry)
-		{
-			$arr = VideoParser::getElements($entry);
-	
-			$arr['BLURB'] |= "Direct Link to BrightCove";
+		function brightcove_Excerpt($arr)
+		{	
+			$arr['BLURB'] |= "Direct Link to BrightCove [{$arr['ID']}]";
 		
 			return VideoParser::getJustification($arr) . "<a href='http://www.brightcove.tv/title.jsp?title={$arr['ID']}'>{$arr['BLURB']}</a>" . VideoParser::getEndJustification($arr);
 		}
 		
-		function bliptv_Excerpt($entry)
+		function bliptv_Excerpt($arr)
 		{
-			$arr = VideoParser::getElements($entry);
-
-			$arr['BLURB'] |= "Direct Link to Blip.tv";
+			$arr['BLURB'] |= "Direct Link to Blip.tv [{$arr['ID']}]";
 
             return VideoParser::getJustification($arr) . "<a href='http://blip.tv/file/{$arr['ID']}'>{$arr['BLURB']}</a>" . VideoParser::getEndJustification($arr);
 		}
-		
+				
+		function revver_Excerpt($arr)
+		{
+			$arr['BLURB'] |= "Direct Link to RevveR [{$arr['ID']}]";
+			
+			return VideoParser::getJustification($arr) . "<a href='http://www.revver.com/video/{$arr['ID']}'>{$arr['BLURB']}</a>" . VideoParser::getEndJustification($arr);
+		}
 	}
 	
 	add_filter('the_content', array('VideoParser','getContent'));
