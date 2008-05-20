@@ -4,7 +4,7 @@ Donate link: http://blog.gneu.org/software-releases/
 Tags: video, formatting, embed
 Requires at least: 2.5.0
 Tested up to: 2.5.1
-Stable tag: N/A
+Stable tag: 2.0.2
 
 Insert videos into posts using bracket method. Currently supported video formats include Blip.tv, BrightCove, Google, LiveLeak, RevveR, Vimeo, Veoh, Youtube and Youtube Custom Players
 
@@ -32,7 +32,16 @@ This will embed a youtube video left justified with a width of 340, aspect ratio
 
 Ordering of these parameters does not matter, and no, its not case sensitive.
 
-**Currently Supported Parameters**:
+= New Features =
+  
+Now includes an options menu, allowing site wide defaults to be included when using the plugin. 
+
+Currently configurable items :
+* Show Link by default **(When turned off, links are turned off site wide)**
+* Maximum Width
+* Default Aspect ratio
+
+= Currently Supported Parameters =
 * **FLOAT** - this is how you handle the left or right float. Defaults to float left. This is most useful when you are trying to embed the video into a body of text.
 * **LEFT** - Left Justification
 * **RIGHT** - Right Justification
@@ -49,6 +58,7 @@ e.g.
 
 1. Upload `WP Videos` to the `/wp-content/plugins/` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
+1. Navigate to the 'Settings' > 'Configure Videos' Menu to configure the defaults.
 1. Place a bracket tag into your post and give her a load
 
 == Frequently Asked Questions ==
@@ -68,6 +78,10 @@ Adding an abstract [object][/object] may be useful, as well as an [embed][/embed
 We'll see where the populous wants this plugin to go. =)
 
 == Change Log ==
+
+= Version 2.1 =
+* Further reworking of the code
+* Added Options Menu
 
 = Version 2.0.2 =
 

@@ -5,16 +5,44 @@ Plugin Name: Video Bracket Tag
 Plugin URI: http://blog.gneu.org/software-releases/video-bracket-tags/
 Description: Insert videos into posts using bracket method. Currently supported video formats include Blip.tv, BrightCove, Google, LiveLeak, RevveR, Vimeo, Veoh, Youtube and Youtube Custom Players
 Author: Bob Chatman
-Version: 2.0.2
+Version: 2.1
 Author URI: http://blog.gneu.org
 
 */ 
 
+
+function VideoAdministrationMenu() 
+{
+	global $user_level;
+	get_currentuserinfo();
+	
+	if (function_exists('current_user_can') && !current_user_can('manage_options')) 
+		return;
+		
+	if ($user_level < 8) 
+		return;
+
+	if (function_exists('add_options_page')) 
+		add_options_page("Video Settings", "Configure Videos", 'manage_options', __FILE__, 'wp_video_manager');
+
+}
+
+// Link the options page up
+add_action('admin_menu', 'VideoAdministrationMenu');
+
+function wp_video_manager()
+{
+	if( function_exists( 'is_site_admin' ) )
+		if( !is_site_admin() )
+			return;
+			
+	?> Hello <?php
+}
+
+# add_option("aiosp_home_description", null, 'All in One SEO Plugin Home Description', 'yes');
 	class VideoParser
 	{
 		private static $Tags = array("youtube", "youtubecp", "google", "vimeo", "liveleak", "veoh", "brightcove", "bliptv", "revver");
-		private static $MaxWidth = 512;
-		private static $MaxHeight = 512;
 
 		private static $Width = 0;
 		private static $Height = 0;
