@@ -24,7 +24,7 @@ The current supported formats are:
 * **Youtube** [youtube={ID}]
 * **Youtube Custom Player** [youtubecp={ID}]
 
-The tags accept a number of parameters. Justification, Width, Aspect Ratio and a text Blurb are all editable on a per tag basis. 
+The tags accept a number of parameters. Justification, Width, Aspect Ratio and a text Blurb are all editable on a per tag basis.
 
 `[youtube=-GG7sj2APpc,LEFT,340,16:9,This is my test blurb]`
 
@@ -40,6 +40,8 @@ Currently configurable items :
 * Show Link by default **(When turned off, links are turned off site wide)**
 * Maximum Width
 * Default Aspect ratio
+
+Also - I have corrected the file layout in the SVN to be able to allow the auto update feature to work without issues. =)
 
 = Currently Supported Parameters =
 * **FLOAT** - this is how you handle the left or right float. Defaults to float left. This is most useful when you are trying to embed the video into a body of text.
