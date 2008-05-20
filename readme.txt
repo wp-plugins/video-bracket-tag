@@ -79,6 +79,10 @@ Adding an abstract [object][/object] may be useful, as well as an [embed][/embed
 
 We'll see where the populous wants this plugin to go. =)
 
+== Screenshots ==
+
+1. A look at the options interface.
+
 == Change Log ==
 
 = Version 2.1 =
