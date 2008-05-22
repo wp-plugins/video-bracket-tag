@@ -22,7 +22,7 @@ The current supported formats are:
 * **Veoh** [veoh={ID}]
 * **Vimeo** [vimeo={ID}]
 * **Youtube** [youtube={ID}]
-* **Youtube Custom Player** [youtubecp={ID}]
+* **Youtube Custom Player** [youtubecp={ID}]  
 
 The tags accept a number of parameters. Justification, Width, Aspect Ratio and a text Blurb are all editable on a per tag basis.
 
