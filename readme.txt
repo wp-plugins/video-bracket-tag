@@ -4,7 +4,7 @@ Donate link: http://blog.gneu.org/software-releases/
 Tags: video, formatting, embed
 Requires at least: 2.5.0
 Tested up to: 2.5.1
-Stable tag: 2.0.2
+Stable tag: N/A
 
 Insert videos into posts using bracket method. Currently supported video formats include Blip.tv, BrightCove, Google, LiveLeak, RevveR, Vimeo, Veoh, Youtube and Youtube Custom Players
 
@@ -33,8 +33,8 @@ This will embed a youtube video left justified with a width of 340, aspect ratio
 Ordering of these parameters does not matter, and no, its not case sensitive.
 
 = New Features =
-  
-Now includes an options menu, allowing site wide defaults to be included when using the plugin. 
+
+Now includes an options menu, allowing site wide defaults to be included when using the plugin.
 
 Currently configurable items :
 * Show Link by default **(When turned off, links are turned off site wide)**
@@ -44,6 +44,7 @@ Currently configurable items :
 Also - I have corrected the file layout in the SVN to be able to allow the auto update feature to work without issues. =)
 
 = Currently Supported Parameters =
+
 * **FLOAT** - this is how you handle the left or right float. Defaults to float left. This is most useful when you are trying to embed the video into a body of text.
 * **LEFT** - Left Justification
 * **RIGHT** - Right Justification
