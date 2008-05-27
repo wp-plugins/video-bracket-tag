@@ -4,7 +4,7 @@ Donate link: http://blog.gneu.org/software-releases/
 Tags: video, formatting, embed
 Requires at least: 2.5.0
 Tested up to: 2.5.1
-Stable tag: 2.0.2
+Stable tag: 2.1
 
 Insert videos into posts using bracket method. Currently supported video formats include Blip.tv, BrightCove, Google, LiveLeak, RevveR, Vimeo, Veoh, Youtube and Youtube Custom Players
 
@@ -22,7 +22,7 @@ The current supported formats are:
 * **Veoh** [veoh={ID}]
 * **Vimeo** [vimeo={ID}]
 * **Youtube** [youtube={ID}]
-* **Youtube Custom Player** [youtubecp={ID}]  
+* **Youtube Custom Player** [youtubecp={ID}]
 
 The tags accept a number of parameters. Justification, Width, Aspect Ratio and a text Blurb are all editable on a per tag basis.
 
@@ -33,10 +33,11 @@ This will embed a youtube video left justified with a width of 340, aspect ratio
 Ordering of these parameters does not matter, and no, its not case sensitive.
 
 = New Features =
-  
-Now includes an options menu, allowing site wide defaults to be included when using the plugin. 
+
+Now includes an options menu, allowing site wide defaults to be included when using the plugin.
 
 Currently configurable items :
+
 * Show Link by default **(When turned off, links are turned off site wide)**
 * Maximum Width
 * Default Aspect ratio
@@ -44,6 +45,7 @@ Currently configurable items :
 Also - I have corrected the file layout in the SVN to be able to allow the auto update feature to work without issues. =)
 
 = Currently Supported Parameters =
+
 * **FLOAT** - this is how you handle the left or right float. Defaults to float left. This is most useful when you are trying to embed the video into a body of text.
 * **LEFT** - Left Justification
 * **RIGHT** - Right Justification
@@ -75,7 +77,7 @@ I sure as hell can (probably...)! The process is quite simple and my turn around
 
 Ultimately i see this plugin moving towards being more abstract. I dont foresee the embedding of video to be a situation where we have to embed them expressly, although i do like the current number of tags and how they are all separated. 
 
-Adding an abstract [object][/object] may be useful, as well as an [embed][/embed] tag, for those as yet unsupported tags that people aren't asking for. 
+Adding an abstract [object][/object] may be useful, as well as an [embed][/embed] tag, for those as yet unsupported tags that people aren't asking for.
 
 We'll see where the populous wants this plugin to go. =)
 
