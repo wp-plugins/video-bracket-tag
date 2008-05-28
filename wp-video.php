@@ -32,7 +32,10 @@ Author URI: http://blog.gneu.org
 			add_option("WPVID_DefaultRatio"	, '4:3');
 			add_option("WPVID_IncludeLink"	, '1');
 			
-			
+		}
+		
+		function Reset()
+		{
 			update_option("WPVID_MaxVideoWidth", 600);
 			update_option("WPVID_DefaultRatio"	, '4:3');
 			update_option("WPVID_IncludeLink"	, '1');
