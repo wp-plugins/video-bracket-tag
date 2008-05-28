@@ -4,7 +4,7 @@ Donate link: http://blog.gneu.org/software-releases/
 Tags: video, formatting, embed
 Requires at least: 2.5.0
 Tested up to: 2.5.1
-Stable tag: 2.1.1            
+Stable tag: 2.1.1
 
 Insert videos into posts using bracket method. Currently supported video formats include Blip.tv, BrightCove, Google, LiveLeak, RevveR, Vimeo, Veoh, Youtube and Youtube Custom Players
 
@@ -26,7 +26,7 @@ The current supported formats are:
 
 The tags accept a number of parameters. Justification, Width, Aspect Ratio and a text Blurb are all editable on a per tag basis.
 
-`[youtube=-GG7sj2APpc,LEFT,340,16:9,This is my test blurb]`
+`[youtube=-GG7sj2APpc,LEFT,340,16:9,This is my test blurb,AUTOPLAY]`
 
 This will embed a youtube video left justified with a width of 340, aspect ratio of 16:9 and the blurb of "This is my test blurb" as its link.
 
@@ -36,10 +36,11 @@ Ordering of these parameters does not matter, and no, its not case sensitive.
 
 Now includes an options menu, allowing site wide defaults to be included when using the plugin.
 
-Currently configurable items :
+**Currently sitewide configurable items**
 * Show Link by default **(When turned off, links are turned off site wide)**
 * Maximum Width
 * Default Aspect ratio
+* Autoplay
 
 Also - I have corrected the file layout in the SVN to be able to allow the auto update feature to work without issues. =)
 
@@ -48,10 +49,15 @@ Also - I have corrected the file layout in the SVN to be able to allow the auto 
 * **FLOAT** - this is how you handle the left or right float. Defaults to float left. This is most useful when you are trying to embed the video into a body of text.
 * **LEFT** - Left Justification
 * **RIGHT** - Right Justification
-* **NOLINK** - Do not include link
-* **Ratio** - Accepted Ratios are : 16:9 16:10 1:1 221:100 5:4 - All other provided values are set to 4:3 (the most common video ratio)
+* **NOLINK** - Do not include video origin link
+* **LINK** - Force Inclusion of video origin link
+* **Ratio** - Accepted Ratios are - 16:9 16:10 1:1 221:100 5:4 - All other provided values are set to 4:3 (the most common video ratio)
 * **Numerical Values** - If you provide any numerical values you are setting the width of your video.
 * **Alphanumeric Values** - When you post your video you may want to change the text value from the default to something descriptive or to caption something in the video.
+
+* For Youtube videos and custom players only:
+* **AUTOPLAY** - Autoplay video when loaded
+* **NOAUTOPLAY** - Don't autoplay video when loaded
 
 == Installation ==
 
@@ -81,6 +87,11 @@ Adding an abstract [object][/object] may be useful, as well as an [embed][/embed
 We'll see where the populous wants this plugin to go. =)
 
 == Change Log ==
+
+= Version 2.1.2 =
+* Extended Keywords {NOLINK, LINK, NOAUTOPLAY, AUTOPLAY}
+* The colon is now acceptable for use in the text blurb
+* Updated the options menu to include autoplay as a sitewide option.
 
 = Version 2.1.1 =
 * Properly Added Options Menu

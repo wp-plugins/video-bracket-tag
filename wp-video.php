@@ -5,7 +5,7 @@ Plugin Name: Video Bracket Tag
 Plugin URI: http://blog.gneu.org/software-releases/video-bracket-tags/
 Description: Insert videos into posts using bracket method. Currently supported video formats include Blip.tv, BrightCove, Google, LiveLeak, RevveR, Vimeo, Veoh, Youtube and Youtube Custom Players
 Author: Bob Chatman
-Version: 2.1.1
+Version: 2.1.2
 Author URI: http://blog.gneu.org
 
 */ 
@@ -31,7 +31,8 @@ Author URI: http://blog.gneu.org
 			add_option("WPVID_MaxVideoWidth", 600);
 			add_option("WPVID_DefaultRatio"	, '4:3');
 			add_option("WPVID_IncludeLink"	, '1');
-			
+			add_option("WPVID_AutoPlay"	, '1');
+
 		}
 		
 		function Reset()
@@ -39,6 +40,7 @@ Author URI: http://blog.gneu.org
 			update_option("WPVID_MaxVideoWidth", 600);
 			update_option("WPVID_DefaultRatio"	, '4:3');
 			update_option("WPVID_IncludeLink"	, '1');
+			update_option("WPVID_AutoPlay"	, '1');
 		}
 		
 		function registerLink()
@@ -151,8 +153,9 @@ Author URI: http://blog.gneu.org
 						"JUST" => "CENTER", 
 						"LINK" => get_option('WPVID_IncludeLink'), 
 						"BLURB" => "", 
-						"FLOAT" => false, 
-						"SIZE" => get_option('WPVID_MaxVideoWidth'));
+						"FLOAT" => false,
+						"SIZE" => get_option('WPVID_MaxVideoWidth'),
+						"AUTOPLAY" => get_option('WPVID_AutoPlay'));
         
             $entry = trim($entry, "[]");
         
@@ -185,8 +188,20 @@ Author URI: http://blog.gneu.org
 							 	 $Ret['JUST'] = "LEFT";
                              break;
 
+                        case "LINK":
+                             $Ret['LINK'] = true;
+                             break;
+
                         case "NOLINK":
                              $Ret['LINK'] = false;
+                             break;
+
+                        case "AUTOPLAY":
+                             $Ret['AUTOPLAY'] = true;
+                             break;
+
+                        case "NOAUTOPLAY":
+                             $Ret['AUTOPLAY'] = false;
                              break;
 
                         default:
@@ -279,8 +294,9 @@ Author URI: http://blog.gneu.org
 				
 				if (ctype_digit($_POST['WPVID_MaxVideoWidth']))
 					update_option('WPVID_MaxVideoWidth', (int)$_POST['WPVID_MaxVideoWidth']);
-				
+
 				update_option('WPVID_IncludeLink', $_POST['WPVID_IncludeLink'] == "on" ? "1" : "0");
+				update_option('WPVID_AutoPlay', $_POST['WPVID_AutoPlay'] == "on" ? "1" : "0");
 				
 				if (in_array($_POST['WPVID_DefaultRatio'], $Ratios))
 					update_option('WPVID_DefaultRatio', $_POST['WPVID_DefaultRatio']);				
@@ -296,6 +312,8 @@ Author URI: http://blog.gneu.org
 <?php endif; ?>
 <div class="wrap">
 	<h2>Configure Embedded Video Options</h2>
+	All of these settings are sitewide and can all be overridden on each video. <br />
+	If you are having issues or would like more information on the embedding of tags, please consult the <a href="http://blog.gneu.org/software-releases/video-bracket-tags/">plugins homepage</a>.
 <form name="submit_video_options" action="" method="post">
 	<?php if ( function_exists('wp_nonce_field') ) { wp_nonce_field('plugin-name-action_WPVID'); } ?>
 	<table class="form-table">
@@ -307,6 +325,11 @@ Author URI: http://blog.gneu.org
 		<tr>
 			<th scope="row" style="text-align:right; vertical-align:top;"> Show Video Links By Default: </th>
 			<td><input type="checkbox" name="WPVID_IncludeLink" <?php echo get_option('WPVID_IncludeLink') == "1" ? "checked='1'" : ""; ?>/>
+			</td>
+		</tr>
+		<tr>
+			<th scope="row" style="text-align:right; vertical-align:top;"> Auto Play Videos: </th>
+			<td><input type="checkbox" name="WPVID_AutoPlay" <?php echo get_option('WPVID_AutoPlay') == "1" ? "checked='1'" : ""; ?>/> <small>*Be very careful with this one.</small>
 			</td>
 		</tr>
 		<tr>
@@ -339,7 +362,7 @@ Author URI: http://blog.gneu.org
 			return VideoParser::getJustification($arr) . "<object width='" . VideoParser::getWidth($arr['RATIO'], $arr['SIZE']) . "' height='" . VideoParser::getHeight($arr['RATIO'], $arr['SIZE']) . "'>
 						<param name='movie' value='{$arr['ID']}'></param>
 						<param name='wmode' value='transparent' ></param>
-						<embed src='http://www.youtube.com/v/{$arr['ID']}' type='application/x-shockwave-flash' wmode='transparent' width='" . VideoParser::getWidth($arr['RATIO'], $arr['SIZE']) . "' height='" . VideoParser::getHeight($arr['RATIO'], $arr['SIZE']) . "'></embed>
+						<embed src='http://www.youtube.com/v/{$arr['ID']}" . ( get_option('WPVID_AutoPlay') == "1" ? "&autoplay=1" : "" ) . "' type='application/x-shockwave-flash' wmode='transparent' width='" . VideoParser::getWidth($arr['RATIO'], $arr['SIZE']) . "' height='" . VideoParser::getHeight($arr['RATIO'], $arr['SIZE']) . "'></embed>
 					 </object>" . ( $arr['LINK'] ? "<br /><center><a href='http://www.youtube.com/watch?v={$arr['ID']}&eurl={$_SERVER['SCRIPT_URI']}'>{$arr['BLURB']}</a></center>" : "" ) . VideoParser::getEndJustification($arr);
 		}
 			
@@ -351,7 +374,7 @@ Author URI: http://blog.gneu.org
 			return VideoParser::getJustification($arr['RATIO'], $arr['SIZE']) . "<object width='" . VideoParser::getWidth($arr['RATIO'], $arr['SIZE']) . "' height='" . VideoParser::getHeight($arr['RATIO']) . "'>
 						<param name='movie' value='{$arr['ID']}'></param>
 						<param name='wmode' value='transparent' ></param>
-						<embed src='http://www.youtube.com/cp/{$arr['ID']}' type='application/x-shockwave-flash' wmode='transparent' width='" . VideoParser::getWidth($arr['RATIO'], $arr['SIZE']) . "' height='" . VideoParser::getHeight($arr['RATIO'], $arr['SIZE']) . "'></embed>
+						<embed src='http://www.youtube.com/cp/{$arr['ID']}" . ( get_option('WPVID_AutoPlay') == "1" ? "&autoplay=1" : "" ) . "' type='application/x-shockwave-flash' wmode='transparent' width='" . VideoParser::getWidth($arr['RATIO'], $arr['SIZE']) . "' height='" . VideoParser::getHeight($arr['RATIO'], $arr['SIZE']) . "'></embed>
 					</object>" . ( $arr['LINK'] ? "<br /><center><a href='http://www.youtube.com/cp/{$arr['ID']}'>{$arr['BLURB']}</a></center>" : "" ) . VideoParser::getEndJustification($arr);
 		}
 
