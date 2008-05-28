@@ -38,7 +38,7 @@ Now includes an options menu, allowing site wide defaults to be included when us
 
 **Currently sitewide configurable items**
 
-* Show Link by default **(When turned off, links are turned off site wide)**
+* Show Link by default
 * Maximum Width
 * Default Aspect ratio
 * Autoplay
