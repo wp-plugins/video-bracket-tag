@@ -37,6 +37,7 @@ Ordering of these parameters does not matter, and no, its not case sensitive.
 Now includes an options menu, allowing site wide defaults to be included when using the plugin.
 
 **Currently sitewide configurable items**
+
 * Show Link by default **(When turned off, links are turned off site wide)**
 * Maximum Width
 * Default Aspect ratio
@@ -74,6 +75,11 @@ e.g.
 
 = Why isnt this working for me? =
 The only thing that has come up that throws this off, at least thus far, is a failure to grab the entirety of the ID. Some of the id's include symbols, or characters, not expressly digits. Just confirm that and you will probably be surprised.
+
+= What is in the future for this plugin? =
+I plan to spend a good amount of time adding locale support, including server location but also making the options menu respect international language borders. If you are a translator or speak any languages you would like this plugin to support please send me an email and we can surely get started.
+
+I am also thinking about adding the ability for just pasting the URL of the video into the text stream and replacing it with the appropriate embedded object. This is something a little more difficult because i would then be doing a more intrusive replacement. Maybe ill use a ! at the beginning to denote links you dont want to have parsed.
 
 = Can you add {xyz} video player? =
 I sure as hell can (probably...)! The process is quite simple and my turn around time is usually just a few hours. Just leave me a message and let me know which players are needed.
