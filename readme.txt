@@ -4,7 +4,7 @@ Donate link: http://blog.gneu.org/software-releases/
 Tags: video, formatting, embed
 Requires at least: 2.5.0
 Tested up to: 2.5.1
-Stable tag: 2.1
+Stable tag: 2.1.2
 
 Insert videos into posts using bracket method. Currently supported video formats include Blip.tv, BrightCove, Google, LiveLeak, RevveR, Vimeo, Veoh, Youtube and Youtube Custom Players
 
@@ -26,7 +26,7 @@ The current supported formats are:
 
 The tags accept a number of parameters. Justification, Width, Aspect Ratio and a text Blurb are all editable on a per tag basis.
 
-`[youtube=-GG7sj2APpc,LEFT,340,16:9,This is my test blurb]`
+`[youtube=-GG7sj2APpc,LEFT,340,16:9,This is my test blurb,AUTOPLAY]`
 
 This will embed a youtube video left justified with a width of 340, aspect ratio of 16:9 and the blurb of "This is my test blurb" as its link.
 
@@ -36,11 +36,12 @@ Ordering of these parameters does not matter, and no, its not case sensitive.
 
 Now includes an options menu, allowing site wide defaults to be included when using the plugin.
 
-Currently configurable items :
+**Currently sitewide configurable items**
 
-* Show Link by default **(When turned off, links are turned off site wide)**
+* Show Link by default
 * Maximum Width
 * Default Aspect ratio
+* Autoplay
 
 Also - I have corrected the file layout in the SVN to be able to allow the auto update feature to work without issues. =)
 
@@ -49,10 +50,15 @@ Also - I have corrected the file layout in the SVN to be able to allow the auto 
 * **FLOAT** - this is how you handle the left or right float. Defaults to float left. This is most useful when you are trying to embed the video into a body of text.
 * **LEFT** - Left Justification
 * **RIGHT** - Right Justification
-* **NOLINK** - Do not include link
-* **Ratio** - Accepted Ratios are : 16:9 16:10 1:1 221:100 5:4 - All other provided values are set to 4:3 (the most common video ratio)
+* **NOLINK** - Do not include video origin link
+* **LINK** - Force Inclusion of video origin link
+* **Ratio** - Accepted Ratios are - 16:9 16:10 1:1 221:100 5:4 - All other provided values are set to 4:3 (the most common video ratio)
 * **Numerical Values** - If you provide any numerical values you are setting the width of your video.
 * **Alphanumeric Values** - When you post your video you may want to change the text value from the default to something descriptive or to caption something in the video.
+
+* For Youtube videos and custom players only:
+* **AUTOPLAY** - Autoplay video when loaded
+* **NOAUTOPLAY** - Don't autoplay video when loaded
 
 == Installation ==
 
@@ -70,6 +76,11 @@ e.g.
 = Why isnt this working for me? =
 The only thing that has come up that throws this off, at least thus far, is a failure to grab the entirety of the ID. Some of the id's include symbols, or characters, not expressly digits. Just confirm that and you will probably be surprised.
 
+= What is in the future for this plugin? =
+I plan to spend a good amount of time adding locale support, including server location but also making the options menu respect international language borders. If you are a translator or speak any languages you would like this plugin to support please send me an email and we can surely get started.
+
+I am also thinking about adding the ability for just pasting the URL of the video into the text stream and replacing it with the appropriate embedded object. This is something a little more difficult because i would then be doing a more intrusive replacement. Maybe ill use a ! at the beginning to denote links you dont want to have parsed.
+
 = Can you add {xyz} video player? =
 I sure as hell can (probably...)! The process is quite simple and my turn around time is usually just a few hours. Just leave me a message and let me know which players are needed.
 
@@ -77,15 +88,21 @@ I sure as hell can (probably...)! The process is quite simple and my turn around
 
 Ultimately i see this plugin moving towards being more abstract. I dont foresee the embedding of video to be a situation where we have to embed them expressly, although i do like the current number of tags and how they are all separated. 
 
-Adding an abstract [object][/object] may be useful, as well as an [embed][/embed] tag, for those as yet unsupported tags that people aren't asking for.
+Adding an abstract [object][/object] may be useful, as well as an [embed][/embed] tag, for those as yet unsupported tags that people aren't asking for. 
 
 We'll see where the populous wants this plugin to go. =)
 
-== Screenshots ==
-
-1. A look at the options interface.
-
 == Change Log ==
+
+= Version 2.1.2 =
+* Extended Keywords {NOLINK, LINK, NOAUTOPLAY, AUTOPLAY}
+* The colon is now acceptable for use in the text blurb
+* Updated the options menu to include autoplay as a sitewide option.
+
+= Version 2.1.1 =
+* Properly Added Options Menu
+* Further reworking of the code
+* moved all functions into class
 
 = Version 2.1 =
 * Further reworking of the code
