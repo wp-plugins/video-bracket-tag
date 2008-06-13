@@ -4,7 +4,7 @@ Donate link: http://blog.gneu.org/software-releases/
 Tags: video, formatting, embed
 Requires at least: 2.5.0
 Tested up to: 2.5.1
-Stable tag: 2.1.2
+Stable tag: 2.2.0
 
 Insert videos into posts using bracket method. Currently supported video formats include Blip.tv, BrightCove, Google, LiveLeak, RevveR, Vimeo, Veoh, Youtube and Youtube Custom Players
 
@@ -16,8 +16,10 @@ The current supported formats are:
 
 * **Blip.tv** [bliptv={ID}]
 * **BrightCove** [brightcove={ID}]
+* **DailyMotion** [dailymotion={ID}]
 * **Google Video** [google={ID}]
 * **LiveLeak** [liveleak={ID}]
+* **MySpace Video** [myspace={ID}]
 * **RevveR** [revver={ID}]
 * **Veoh** [veoh={ID}]
 * **Vimeo** [vimeo={ID}]
@@ -34,20 +36,19 @@ Ordering of these parameters does not matter, and no, its not case sensitive.
 
 = New Features =
 
-Now includes an options menu, allowing site wide defaults to be included when using the plugin.
+Options Menu has a new entry to control styling. Raw CSS is available to be tweaked on a site wide basis
 
-**Currently sitewide configurable items**
+Added two new providers - MySpace Video and Daily Motion.
 
-* Show Link by default
-* Maximum Width
-* Default Aspect ratio
-* Autoplay
+Autoplay is now fully functional on Vimeo, Google and LiveLeak as well as Youtube Videos.
 
-Also - I have corrected the file layout in the SVN to be able to allow the auto update feature to work without issues. =)
+Corrected a linking issue for Veoh and Liveleak
+
+**Deprecated Float Keyword**
 
 = Currently Supported Parameters =
 
-* **FLOAT** - this is how you handle the left or right float. Defaults to float left. This is most useful when you are trying to embed the video into a body of text.
+* **FLOAT** - Left Justification
 * **LEFT** - Left Justification
 * **RIGHT** - Right Justification
 * **NOLINK** - Do not include video origin link
@@ -56,9 +57,10 @@ Also - I have corrected the file layout in the SVN to be able to allow the auto 
 * **Numerical Values** - If you provide any numerical values you are setting the width of your video.
 * **Alphanumeric Values** - When you post your video you may want to change the text value from the default to something descriptive or to caption something in the video.
 
-* For Youtube videos and custom players only:
+
+* Selected video players only:
 * **AUTOPLAY** - Autoplay video when loaded
-* **NOAUTOPLAY** - Don't autoplay video when loaded
+* **NOAUTOPLAY** - Don't autoplay video when loaded - if you have autoplay defaulted to on.
 
 == Installation ==
 
@@ -93,6 +95,13 @@ Adding an abstract [object][/object] may be useful, as well as an [embed][/embed
 We'll see where the populous wants this plugin to go. =)
 
 == Change Log ==
+
+= Version 2.2.0 =
+* Add CSS Style div around embedded video.
+* Add Autoplay to all video formats where applicable {Vimeo, Google, LiveLeak, Youtube}
+* Add Myspace, DailyMotion video formats
+* Corrected Linking Issue - Veoh & LiveLeak
+* Deprecated Float Keyword
 
 = Version 2.1.2 =
 * Extended Keywords {NOLINK, LINK, NOAUTOPLAY, AUTOPLAY}
