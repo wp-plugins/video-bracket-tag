@@ -4,7 +4,7 @@ Donate link: http://blog.gneu.org/software-releases/
 Tags: video, formatting, embed
 Requires at least: 2.5.0
 Tested up to: 2.5.1
-Stable tag: 2.2.0
+Stable tag: 2.2.1
 
 Insert videos into posts using bracket method. Currently supported video formats include Blip.tv, BrightCove, Google, LiveLeak, RevveR, Vimeo, Veoh, Youtube and Youtube Custom Players
 
@@ -95,6 +95,9 @@ Adding an abstract [object][/object] may be useful, as well as an [embed][/embed
 We'll see where the populous wants this plugin to go. =)
 
 == Change Log ==
+
+= Version 2.2.1 = 
+* Corrected Video caption mixup. 
 
 = Version 2.2.0 =
 * Add CSS Style div around embedded video.

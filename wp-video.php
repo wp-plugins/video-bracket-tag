@@ -5,7 +5,7 @@ Plugin Name: Video Bracket Tag
 Plugin URI: http://blog.gneu.org/software-releases/video-bracket-tags/
 Description: Insert videos into posts using bracket method. Supported Players: Youtube, Youtube Custom Player, Google Video, Vimeo, Liveleak, Veoh, Brightcove, Blip.tv, Revver, Dailymotion, Myspace Video
 Author: Bob Chatman
-Version: 2.2.0
+Version: 2.2.1
 Author URI: http://blog.gneu.org
 
 */
@@ -468,7 +468,7 @@ Author URI: http://blog.gneu.org
 		function youtube_Excerpt($arr)
 		{
 			if ($arr['BLURB'] == "")
-				$arr['BLURB'] = "Direct Link To Yahoo Video [{$arr['ID']}]";
+				$arr['BLURB'] = "Direct Link To Youtube Video [{$arr['ID']}]";
 
 			return VideoParser::getJustification($arr) . "<a href='http://www.youtube.com/watch?v={$arr['ID']}&eurl={$_SERVER['SCRIPT_URI']}'>{$arr['BLURB']}</a>" . VideoParser::getEndJustification($entry);
 		}
@@ -476,7 +476,7 @@ Author URI: http://blog.gneu.org
 		function youtubecp_Excerpt($arr)
 		{
 			if ($arr['BLURB'] == "")
-				$arr['BLURB'] = "Direct Link To Yahoo Custom Player [{$arr['ID']}]";
+				$arr['BLURB'] = "Direct Link To Youtube Custom Player [{$arr['ID']}]";
 
 			return VideoParser::getJustification($arr) . "<a href='http://www.youtube.com/cp/{$arr['ID']}'>{$arr['BLURB']}</a>" . VideoParser::getEndJustification($arr);
 		}
