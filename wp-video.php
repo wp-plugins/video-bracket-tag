@@ -5,13 +5,13 @@ Plugin Name: Video Bracket Tag
 Plugin URI: http://blog.gneu.org/software-releases/video-bracket-tags/
 Description: Insert videos into posts using bracket method. Supported Players: Youtube, Youtube Custom Player, Google Video, Vimeo, Liveleak, Veoh, Brightcove, Blip.tv, Revver, Dailymotion, Myspace Video
 Author: Bob Chatman
-Version: 2.2.1
+Version: 2.3.0
 Author URI: http://blog.gneu.org
 
 */
 	class VideoParser
 	{
-		private static $Tags = array("youtube", "youtubecp", "google", "vimeo", "liveleak", "veoh", "brightcove", "bliptv", "revver", "dailymotion", "myspace");
+		private static $Tags = array("youtube", "youtubecp", "google", "vimeo", "liveleak", "veoh", "brightcove", "brightcovecp", "bliptv", "revver", "dailymotion", "myspace", "hulu");
 
 		private static $Width = 0;
 		private static $Height = 0;
@@ -441,7 +441,6 @@ Author URI: http://blog.gneu.org
 
         function dailymotion_Content($arr)
         {
-
 			if ($arr['BLURB'] == "")
 				$arr['BLURB'] = "Direct Link to Daily Motion [{$arr['ID']}]";
 
@@ -461,6 +460,54 @@ Author URI: http://blog.gneu.org
 
             return VideoParser::getJustification($arr) . "<embed src='http://lads.myspace.com/videos/vplayer.swf' flashvars='m={$arr['ID']}&a=" . ( $arr['AUTOPLAY'] == "1" ? "1" : "0" ) . "&type=video' type='application/x-shockwave-flash' width='" . VideoParser::getWidth($arr['RATIO'], $arr['SIZE']) . "' height='" . VideoParser::getHeight($arr['RATIO'], $arr['SIZE']) . "'></embed>
             " . ( $arr['LINK'] ? "<br /><center><a href='http://vids.myspace.com/index.cfm?fuseaction=vids.individual&VideoID={$arr['ID']}'>{$arr['BLURB']}</a></center>" : "" ) . VideoParser::getEndJustification($arr);
+        }
+
+
+        function hulu_Content($arr)
+        {
+			if ($arr['BLURB'] == "")
+				$arr['BLURB'] = "Direct Link to Myspace Video [{$arr['ID']}]";
+
+            return VideoParser::getJustification($arr) . "<object height='" . VideoParser::getHeight($arr['RATIO'], $arr['SIZE']) . "' width='" . VideoParser::getWidth($arr['RATIO'], $arr['SIZE']) . "'>
+            <param name='movie' value='http://www.hulu.com/embed/{$arr['ID']}'>
+            <embed src='http://www.hulu.com/embed/{$arr['ID']}' type='application/x-shockwave-flash' height='" . VideoParser::getHeight($arr['RATIO'], $arr['SIZE']) . "' width='" . VideoParser::getWidth($arr['RATIO'], $arr['SIZE']) . "'></object>
+            " . VideoParser::getEndJustification($arr);
+        }
+
+        function brightcovecp_Content($arr)
+        {
+            $width = VideoParser::getWidth($arr['RATIO'], $arr['SIZE']);
+            $height = VideoParser::getHeight($arr['RATIO'], $arr['SIZE']);
+
+            return "<script src='http://admin.brightcove.com/js/experience_util.js' type='text/javascript'></script>
+
+<script type='text/javascript'>
+ // By use of this code snippet, I agree to the Brightcove Publisher T and C
+ // found at http://corp.brightcove.com/legal/terms_publisher.cfm.
+
+ var config = new Array();
+
+ /*
+ * feel free to edit these configurations
+ * to modify the player experience
+ */
+ config['videoId'] = null; //the default video loaded into the player
+ config['videoRef'] = null; //the default video loaded into the player by ref id specified in console
+ config['lineupId'] = null; //the default lineup loaded into the player
+ config['playerTag'] = null; //player tag used for identifying this page in brightcove reporting
+ config['autoStart'] = false; //tells the player to start playing video on load
+ config['preloadBackColor'] = '#ffffff'; //background color while loading the player
+ config['continuousPlay'] = 'false';
+ config['maximized'] = 'true';
+
+ /* do not edit these config items */
+ config['playerId'] = '{$arr['ID']}';
+ config['width'] = $width;
+ config['height'] = $height;
+
+ createExperience(config, 8);
+</script>
+";
         }
 
 /* Begin Excerpt Function Section ****************************************************************************/
@@ -554,14 +601,19 @@ Author URI: http://blog.gneu.org
             return "<a href='http://vids.myspace.com/index.cfm?fuseaction=vids.individual&VideoID={$arr['ID']}'>{$arr['BLURB']}</a>" . VideoParser::getEndJustification($arr);
         }
 
+        function brightcovecp_Excerpt($arr)
+        {
+            return "Bright Cove Channel #" . $arr['ID'];
+        }
+
 	}
-	
+
 	if ( get_option('WPVID_MaxVideoWidth') == "" )
 		VideoParser::Install();
-	
+
 	add_filter('the_content', array('VideoParser', 'getContent'));
-	add_filter('the_excerpt', array('VideoParser', 'getExcerpt')); 
-	
+	add_filter('the_excerpt', array('VideoParser', 'getExcerpt'));
+
 	// Link the options page up
 	add_action('admin_menu', array('VideoParser', 'VideoAdministrationMenu'));
 

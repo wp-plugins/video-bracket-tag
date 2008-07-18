@@ -4,7 +4,7 @@ Donate link: http://blog.gneu.org/software-releases/
 Tags: video, formatting, embed
 Requires at least: 2.5.0
 Tested up to: 2.5.1
-Stable tag: 2.2.1
+Stable tag: 2.3.0
 
 Insert videos into posts using bracket method. Currently supported video formats include Blip.tv, BrightCove, Google, LiveLeak, RevveR, Vimeo, Veoh, Youtube and Youtube Custom Players
 
@@ -78,6 +78,8 @@ e.g.
 = Why isnt this working for me? =
 The only thing that has come up that throws this off, at least thus far, is a failure to grab the entirety of the ID. Some of the id's include symbols, or characters, not expressly digits. Just confirm that and you will probably be surprised.
 
+This plugin requires PHP5 in order to work. Since PHP4 is being phased out you should probably upgrade if you are having issues. 
+
 = What is in the future for this plugin? =
 I plan to spend a good amount of time adding locale support, including server location but also making the options menu respect international language borders. If you are a translator or speak any languages you would like this plugin to support please send me an email and we can surely get started.
 
@@ -96,8 +98,12 @@ We'll see where the populous wants this plugin to go. =)
 
 == Change Log ==
 
-= Version 2.2.1 = 
-* Corrected Video caption mixup. 
+= Version 2.3.0 =
+* Added Hulu to player listing (No Excerpt b/c links are too complex currently)
+* Added BrightCove Channel Player to player listing (Requires Approval of channel owner)
+
+= Version 2.2.1 =
+* Corrected Video caption mixup.
 
 = Version 2.2.0 =
 * Add CSS Style div around embedded video.
