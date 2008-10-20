@@ -5,7 +5,7 @@ Plugin Name: Video Bracket Tag
 Plugin URI: http://blog.gneu.org/software-releases/video-bracket-tags/
 Description: Insert videos into posts using bracket method. Supported Players: Youtube, Youtube Custom Player, Google Video, Vimeo, Liveleak, Veoh, Brightcove, Blip.tv, Revver, Dailymotion, Myspace Video
 Author: Bob Chatman
-Version: 2.3.0
+Version: 2.3.1
 Author URI: http://blog.gneu.org
 
 */

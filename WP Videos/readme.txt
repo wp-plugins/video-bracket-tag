@@ -3,8 +3,8 @@ Contributors: BobGneu
 Donate link: http://blog.gneu.org/software-releases/
 Tags: video, formatting, embed
 Requires at least: 2.5.0
-Tested up to: 2.5.1
-Stable tag: 2.3.0
+Tested up to: 2.6.2
+Stable tag: 2.3.1
 
 Insert videos into posts using bracket method. Currently supported video formats include Blip.tv, BrightCove, Google, LiveLeak, RevveR, Vimeo, Veoh, Youtube and Youtube Custom Players
 
@@ -28,7 +28,7 @@ The current supported formats are:
 
 The tags accept a number of parameters. Justification, Width, Aspect Ratio and a text Blurb are all editable on a per tag basis.
 
-`[youtube=-GG7sj2APpc,LEFT,340,16:9,This is my test blurb,AUTOPLAY]`
+`[youtube=M5McvNTdEAE,LEFT,340,16:9,This is my test blurb,AUTOPLAY]`
 
 This will embed a youtube video left justified with a width of 340, aspect ratio of 16:9 and the blurb of "This is my test blurb" as its link.
 
@@ -75,10 +75,15 @@ e.g.
 
 == Frequently Asked Questions ==
 
+= How do i configure my own styling? =
+The CSS for the styling is on the same page as the other Video Configurations.
+
+'Settings' > 'Configure Videos'
+
 = Why isnt this working for me? =
 The only thing that has come up that throws this off, at least thus far, is a failure to grab the entirety of the ID. Some of the id's include symbols, or characters, not expressly digits. Just confirm that and you will probably be surprised.
 
-This plugin requires PHP5 in order to work. Since PHP4 is being phased out you should probably upgrade if you are having issues. 
+This plugin requires PHP5 in order to work. Since PHP4 is being phased out you should probably upgrade if you are having issues.
 
 = What is in the future for this plugin? =
 I plan to spend a good amount of time adding locale support, including server location but also making the options menu respect international language borders. If you are a translator or speak any languages you would like this plugin to support please send me an email and we can surely get started.
