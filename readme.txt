@@ -1,10 +1,10 @@
 === Video Bracket Tag ===
-Contributors: BobGneu
+Contributors: BobGneu, Gneu.org
 Donate link: http://blog.gneu.org/software-releases/
-Tags: video, formatting, embed
+Tags: video, formatting, embed, youtube, youtubecp, google, vimeo, liveleak, veoh, brightcove, brightcovecp, bliptv, revver, dailymotion, myspace, hulu, yahoo, cnn, configurable, autoplay, 
 Requires at least: 2.5.0
-Tested up to: 2.6.2
-Stable tag: 2.3.2
+Tested up to: 2.6.3
+Stable tag: 2.4.0
 
 Insert videos into posts using bracket method. Currently supported video formats include Blip.tv, BrightCove, Google, LiveLeak, RevveR, Vimeo, Veoh, Youtube and Youtube Custom Players
 
@@ -14,17 +14,9 @@ This plugin provides the ability to embed a number of video objects into your WP
 
 The current supported formats are:
 
-* **Blip.tv** [bliptv={ID}]
-* **BrightCove** [brightcove={ID}]
-* **DailyMotion** [dailymotion={ID}]
-* **Google Video** [google={ID}]
-* **LiveLeak** [liveleak={ID}]
-* **MySpace Video** [myspace={ID}]
-* **RevveR** [revver={ID}]
-* **Veoh** [veoh={ID}]
-* **Vimeo** [vimeo={ID}]
-* **Youtube** [youtube={ID}]
-* **Youtube Custom Player** [youtubecp={ID}]
+youtube, youtubecp, google, vimeo, liveleak,
+veoh, brightcove, brightcovecp, bliptv, revver,
+dailymotion, myspace, hulu, yahoo, cnn
 
 The tags accept a number of parameters. Justification, Width, Aspect Ratio and a text Blurb are all editable on a per tag basis.
 
@@ -101,7 +93,16 @@ Adding an abstract [object][/object] may be useful, as well as an [embed][/embed
 
 We'll see where the populous wants this plugin to go. =)
 
+== Screenshots ==
+
+1. A passing glance at the adminisration interface, note the supported players listing.
+
 == Change Log ==
+
+= Version 2.4.0 =
+* Added Yahoo and CNN video embedding support
+* Updated Screenshot
+* Added Screenshot page to WP site listing
 
 = Version 2.3.0 =
 * Added Hulu to player listing (No Excerpt b/c links are too complex currently)
