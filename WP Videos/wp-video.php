@@ -5,13 +5,13 @@ Plugin Name: Video Bracket Tag
 Plugin URI: http://blog.gneu.org/software-releases/video-bracket-tags/
 Description: Insert videos into posts using bracket method. Supported Players: Youtube, Youtube Custom Player, Google Video, Vimeo, Liveleak, Veoh, Brightcove, Blip.tv, Revver, Dailymotion, Myspace Video
 Author: Bob Chatman
-Version: 2.3.2
+Version: 2.4.0
 Author URI: http://blog.gneu.org
 
 */
 	class VideoParser
 	{
-		private static $Tags = array("youtube", "youtubecp", "google", "vimeo", "liveleak", "veoh", "brightcove", "brightcovecp", "bliptv", "revver", "dailymotion", "myspace", "hulu");
+		private static $Tags = array("youtube", "youtubecp", "google", "vimeo", "liveleak", "veoh", "brightcove", "brightcovecp", "bliptv", "revver", "dailymotion", "myspace", "hulu", "yahoo", "cnn");
 
 		private static $Width = 0;
 		private static $Height = 0;
@@ -23,17 +23,17 @@ Author URI: http://blog.gneu.org
 				self::$Tags[$tag] = array($content, $excerpt);
 			}
 		}
-		
+
 		function Install()
 		{
 			add_option("WPVID_MaxVideoWidth", 600);
 			add_option("WPVID_DefaultRatio"	, '4:3');
-			add_option("WPVID_IncludeLink"	, '1');                                             
+			add_option("WPVID_IncludeLink"	, '1');
 			add_option("WPVID_AutoPlay"	, '0');
 			add_option("WPVID_DivFormatting", 'padding: 3px; margin: 6px; border: 1px solid #ccc;');
 
 		}
-		
+
 		function Reset()
 		{
 			update_option("WPVID_MaxVideoWidth", 600);
@@ -46,51 +46,51 @@ Author URI: http://blog.gneu.org
 		public static function getWidth($ratio = "4:3", $size)
 		{
 		    self::ValidateSize($ratio, $size);
-		 
+
             return self::$Width;
 		}
 
 		public static function getHeight($ratio = "4:3", $size)
 		{
 		    self::ValidateSize($ratio, $size);
-		    
+
 		    return self::$Height;
 		}
-		
+
 		private static function ValidateSize($ratio, $size)
 		{
     		if (stripos($ratio, ":") !== FALSE || $ratio == "")
     		{
     			self::$Width = $size;
-				
+
     			switch ($ratio)
     			{
     				case "16:9":
     					self::$Height = (int)(self::$Width / 16) * 9;
     					break;
-    					
+
     				case "16:10":
     					self::$Height = (int)(self::$Width / 16) * 10;
     					break;
-    
+
     				case "1:1":
     					self::$Height = self::$Width;
     					break;
-    					
+
     				case "221:100":
     					self::$Height = (int)(self::$Width / 221) * 100;
     					break;
-    					
+
     				case "5:4":
     					self::$Height = (int)(self::$Width / 5) * 4;
     					break;
-    					
+
     				default:
     					self::$Height = (int)(self::$Width / 4) * 3;
     			}
     		}
     		else
-    		{				
+    		{
     			self::$Width = $size;
 				self::$Height = (int)(self::$Width / 4) * 3;
     		}
@@ -99,20 +99,20 @@ Author URI: http://blog.gneu.org
 	    function getJustification($entry)
 		{
 			$Ret = "<div style='" . get_option('WPVID_DivFormatting');
-			
+
 			switch($entry['JUST'])
 			{
 				case "LEFT":
 				case "RIGHT":
 					$Ret .= "float: " . $entry['JUST'] . "'>";
-					
+
 					break;
 				default:
 					$Ret .= "' align='center'>";
-					
+
 					break;
 			}
-			
+
 			return $Ret;
 		}
 
@@ -120,31 +120,31 @@ Author URI: http://blog.gneu.org
 		{
 			return '</div>';
 		}
-		
+
 	    function getElements($entry)
         {
-            $Ret = array("ID" => null, 
-						"RATIO" => get_option('WPVID_DefaultRatio'), 
-						"JUST" => "CENTER", 
-						"LINK" => get_option('WPVID_IncludeLink'), 
+            $Ret = array("ID" => null,
+						"RATIO" => get_option('WPVID_DefaultRatio'),
+						"JUST" => "CENTER",
+						"LINK" => get_option('WPVID_IncludeLink'),
 						"BLURB" => "",
 						"SIZE" => get_option('WPVID_MaxVideoWidth'),
 						"AUTOPLAY" => get_option('WPVID_AutoPlay'));
-        
+
             $entry = trim($entry, "[]");
-        
+
 			$arr = explode("=", $entry, 2);
 			$arr = explode(",", $arr[1]);
-			
+
 			for($i = 0; $i < count($arr); $i++)
 				$arr[$i] = trim($arr[$i]);
-			
+
 			$Ret['ID'] = array_shift($arr);
-	
+
             foreach ($arr as $el)
             {
 				$tArr = split(":", $el, 3);
-                if (strpos($el, ":") !== false && count($tArr) == 2 && (ctype_digit($tArr[0]) === true && ctype_digit($tArr[1]) === true)) 
+                if (strpos($el, ":") !== false && count($tArr) == 2 && (ctype_digit($tArr[0]) === true && ctype_digit($tArr[1]) === true))
                     $Ret['RATIO'] = $el;
                 else if (ctype_digit($el) === true)
                     $Ret['SIZE'] = (int)$el;
@@ -158,7 +158,7 @@ Author URI: http://blog.gneu.org
                         case "FLOAT" :
                              $Ret['JUST'] = 'LEFT';
                              break;
-							 
+
                         case "LINK":
                              $Ret['LINK'] = true;
                              break;
@@ -179,10 +179,10 @@ Author URI: http://blog.gneu.org
                                 $Ret['BLURB'] = htmlentities($el, ENT_QUOTES, "UTF-8");
                     }
             }
-			
+
     		return $Ret;
 	    }
-		
+
 		private function executeParse(&$content, $s_pos, $tag, $func)
 		{
 			$e_pos = strpos($content, "]", $s_pos + strlen($tag));
@@ -190,7 +190,7 @@ Author URI: http://blog.gneu.org
 			$beginning = substr($content, 0, $s_pos);
 			$end       = substr($content, $e_pos + 1 );
 			$entry     = substr($content, $s_pos, $e_pos - $s_pos + 1);
-			
+
 			$embed     = @call_user_func(array('VideoParser', "{$tag}{$func}"), VideoParser::getElements($entry));
 
 			if ($embed !== false)
@@ -198,15 +198,15 @@ Author URI: http://blog.gneu.org
 			else
 				$content = $beginning . $end;
 		}
-	
+
 		function getContent($content)
 		{
 			foreach (self::$Tags as $tag)
 			{
     			list ($s_pos, $e_pos) = array();
-    		
+
     		    $s_pos = strpos(strtolower($content), "[$tag=");
-    			
+
     			while ($s_pos !== false && method_exists('VideoParser',"{$tag}_Content"))
     			{
  					VideoParser::executeParse($content, $s_pos, $tag, '_Content');
@@ -222,9 +222,9 @@ Author URI: http://blog.gneu.org
 			foreach (self::$Tags as $tag)
 			{
     			list ($s_pos, $e_pos) = array();
-    		
+
     		    $s_pos = strpos(strtolower($content), "[$tag=");
-    			
+
     			while ($s_pos !== false && method_exists('VideoParser',"{$tag}_Excerpt"))
     			{
  					VideoParser::executeParse($content, $s_pos, $tag, '_Content');
@@ -234,31 +234,31 @@ Author URI: http://blog.gneu.org
 
 			return $content;
 		}
-		
-		function VideoAdministrationMenu() 
+
+		function VideoAdministrationMenu()
 		{
 			global $user_level;
 			get_currentuserinfo();
-			
-			if (function_exists('current_user_can') && !current_user_can('manage_options')) 
+
+			if (function_exists('current_user_can') && !current_user_can('manage_options'))
 				return;
-				
-			if ($user_level < 8) 
+
+			if ($user_level < 8)
 				return;
-		
-			if (function_exists('add_options_page')) 
+
+			if (function_exists('add_options_page'))
 				add_options_page("Video Settings", "Configure Videos", 'manage_options', __FILE__, array('VideoParser', 'VideoAdministrationMenu_Form'));
-		
+
 		}
-	
+
 		function VideoAdministrationMenu_Form()
 		{
 			if( function_exists( 'is_site_admin' ) )
 				if( !is_site_admin() )
 					return;
-					
+
 			$Ratios = array("1:1", "16:10", "16:9", "221:100", "4:3", "5:4");
-			
+
 			if(isset($_POST) && $_POST['Action'] && check_admin_referer('plugin-name-action_WPVID'))
 			{
                 if ($_POST['Submit'] == "Reset Values")
@@ -334,27 +334,27 @@ Author URI: http://blog.gneu.org
 		<input type="submit" name="Submit" value="Reset Values" />
 	</p>
 </form>
-</div> 
+</div>
 <?php
 		}
 
-		
+
 /* Begin Content Function Section ****************************************************************************/
 
 		function youtube_Content($arr)
-		{			
+		{
 			if ($arr['BLURB'] == "")
 				$arr['BLURB'] = "Direct Link to YouTube [{$arr['ID']}]";
-				
+
 			return VideoParser::getJustification($arr) . "<object width='" . VideoParser::getWidth($arr['RATIO'], $arr['SIZE']) . "' height='" . VideoParser::getHeight($arr['RATIO'], $arr['SIZE']) . "'>
 						<param name='movie' value='{$arr['ID']}'></param>
 						<param name='wmode' value='transparent' ></param>
 						<embed src='http://www.youtube.com/v/{$arr['ID']}" . ( $arr['AUTOPLAY'] == "1" ? "&autoplay=1" : "&autoplay=0" ) . "' type='application/x-shockwave-flash' wmode='transparent' width='" . VideoParser::getWidth($arr['RATIO'], $arr['SIZE']) . "' height='" . VideoParser::getHeight($arr['RATIO'], $arr['SIZE']) . "'></embed>
 					 </object>" . ( $arr['LINK'] ? "<br /><center><a href='http://www.youtube.com/watch?v={$arr['ID']}&eurl={$_SERVER['SCRIPT_URI']}'>{$arr['BLURB']}</a></center>" : "" ) . VideoParser::getEndJustification($arr);
 		}
-			
+
 		function youtubecp_Content($arr)
-		{	
+		{
 			if ($arr['BLURB'] == "")
 				$arr['BLURB'] = "Direct Link to YouTube [{$arr['ID']}]";
 
@@ -384,7 +384,7 @@ Author URI: http://blog.gneu.org
     			 <param name='allowfullscreen' value='true' />
     			 <param name='scale' value='showAll' />
     			 <param name='movie' value='http://www.vimeo.com/moogaloop.swf?clip_id={$arr['ID']}&amp;server=www.vimeo.com&amp;fullscreen=1&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=' /></object>
-    
+
     			 " . ( $arr['LINK'] ? "<br /><center><a href='http://www.vimeo.com/{$arr['ID']}'>{$arr['BLURB']}</a></center>" : "" ) . VideoParser::getEndJustification($arr);
 		}
 
@@ -423,7 +423,7 @@ Author URI: http://blog.gneu.org
             return VideoParser::getJustification($arr) . "<embed src='http://blip.tv/play/{$arr['ID']}" . ( get_option('WPVID_AutoPlay') == "1" ? "?autostart=true" : "?autostart=false" ) . "' type='application/x-shockwave-flash' width='" . VideoParser::getWidth($arr['RATIO'], $arr['SIZE']) . "' height='" . VideoParser::getHeight($arr['RATIO'], $arr['SIZE']) . "' allowscriptaccess='always' allowfullscreen='true' /></embed>
                 " . ( $arr['LINK'] ? "<br /><center><a href='http://blip.tv/file/{$arr['ID']}'>{$arr['BLURB']}</a></center>" : "" ) . VideoParser::getEndJustification($arr);
 		}
-		
+
 		function revver_Content($arr) # &autostart=true
 		{
 			if ($arr['BLURB'] == "")
@@ -509,7 +509,33 @@ Author URI: http://blog.gneu.org
 </script>
 ";
         }
+        
+        function yahoo_Content($arr)
+        {
+			if ($arr['BLURB'] == "")
+				$arr['BLURB'] = "Direct Link to Yahoo Video [{$arr['ID']}]";
+				
+            $width = VideoParser::getWidth($arr['RATIO'], $arr['SIZE']);
+            $height = VideoParser::getHeight($arr['RATIO'], $arr['SIZE']);
+			
+			list($vid, $id) = split("/", $arr['ID']);
 
+			return VideoParser::getJustification($arr) . "<object width=\"$width\" height=\"$height\">
+			<param name=\"movie\" value=\"http://d.yimg.com/static.video.yahoo.com/yep/YV_YEP.swf?ver=2.2.30\" />
+			<param name=\"allowFullScreen\" value=\"true\" />
+			<param name=\"AllowScriptAccess\" VALUE=\"always\" />
+			<param name=\"bgcolor\" value=\"#000000\" />
+			<param name=\"flashVars\" value=\"id=$id&vid=$vid&lang=en-us&intl=us&thumbUrl=http%3A//us.i1.yimg.com/us.yimg.com/i/us/sch/cn/video04/3265004_rnd5ffeb85f_19.jpg&embed=1&ap=butterfinger\" />
+			<embed src=\"http://d.yimg.com/static.video.yahoo.com/yep/YV_YEP.swf?ver=2.2.30\" type=\"application/x-shockwave-flash\" width=\"$width\" height=\"$height\" allowFullScreen=\"true\" AllowScriptAccess=\"always\" bgcolor=\"#000000\" flashVars=\"id=$id&vid=$vid&lang=en-us&intl=us&embed=1&ap=butterfinger\" >
+			</embed>
+			</object>". ( $arr['LINK'] ? "<br /><center><a href='http://video.yahoo.com/watch/{$arr['ID']}'>{$arr['BLURB']}</a></center>" : "" ) . VideoParser::getEndJustification($arr);
+        }
+		
+		function cnn_Content($arr)
+		{
+			return VideoParser::getJustification($arr) . "<script src=\"http://i.cdn.turner.com/cnn/.element/js/2.0/video/evp/module.js?loc=dom&vid={$arr['ID']}\" type=\"text/javascript\"></script>" . VideoParser::getEndJustification($arr);
+		}
+		
 /* Begin Excerpt Function Section ****************************************************************************/
 
 		function youtube_Excerpt($arr)
@@ -605,6 +631,22 @@ Author URI: http://blog.gneu.org
         {
             return "Bright Cove Channel #" . $arr['ID'];
         }
+        
+        function yahoo_Excerpt($arr)
+        {
+			if ($arr['BLURB'] == "")
+				$arr['BLURB'] = "Direct Link to Yahoo Video [{$arr['ID']}]";
+
+			return "<a href='http://video.yahoo.com/watch/{$arr['ID']}'>{$arr['BLURB']}</a>";
+        }
+		
+		function cnn_Excerpt($arr)
+		{
+			if ($arr['BLURB'] == "")
+				$arr['BLURB'] = "Direct Link to CNN Video [{$arr['ID']}]";
+				
+			return "<a href='http://www.cnn.com/video/#{$arr['ID']}'>{$arr['BLURB']}</a>";
+		}
 
 	}
 
