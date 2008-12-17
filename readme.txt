@@ -3,8 +3,8 @@ Contributors: BobGneu, Gneu.org
 Donate link: http://blog.gneu.org/software-releases/
 Tags: video, formatting, embed, youtube, youtubecp, google, vimeo, liveleak, veoh, brightcove, brightcovecp, bliptv, revver, dailymotion, myspace, hulu, yahoo, cnn, configurable, autoplay, 
 Requires at least: 2.5.0
-Tested up to: 2.6.3
-Stable tag: 2.4.0
+Tested up to: 2.7.0
+Stable tag: 2.4.1
 
 Insert videos into posts using bracket method. Currently supported video formats include Blip.tv, BrightCove, Google, LiveLeak, RevveR, Vimeo, Veoh, Youtube and Youtube Custom Players
 
