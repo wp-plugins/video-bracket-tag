@@ -1,12 +1,12 @@
 === Video Bracket Tag ===
 Contributors: BobGneu, Gneu.org
-Donate link: http://blog.gneu.org/software-releases/
-Tags: video, formatting, embed, youtube, youtubecp, google, vimeo, liveleak, veoh, brightcove, brightcovecp, bliptv, revver, dailymotion, myspace, hulu, yahoo, cnn, configurable, autoplay, 
+Donate link: http://blog.gneu.org/
+Tags: video, formatting, embed, youtube, youtube custom player, google, vimeo, liveleak, veoh, bliptv, revver, dailymotion, myspace, hulu, yahoo, collegehumor, configurable, autoplay
 Requires at least: 2.5.0
-Tested up to: 2.9
-Stable tag: 2.4.1
+Tested up to: 3.0.1
+Stable tag: 3.0
 
-Insert videos into posts using bracket method. Currently supported video formats include Blip.tv, BrightCove, Google, LiveLeak, RevveR, Vimeo, Veoh, Youtube and Youtube Custom Players
+Insert videos into posts using bracket method. 
 
 == Description ==
 
@@ -14,29 +14,30 @@ This plugin provides the ability to embed a number of video objects into your WP
 
 The current supported formats are:
 
-youtube, youtubecp, google, vimeo, liveleak,
-veoh, brightcove, brightcovecp, bliptv, revver,
-dailymotion, myspace, hulu, yahoo, cnn
+* Blip.tv - **bliptv**
+* College  Humor - **collegehumor**
+* Daily Motion - **dailymotion**
+* Google - **google**
+* Hulu - **hulu**
+* LiveLeak - **liveleak**
+* MySpace - **myspace**
+* Revver - **revver**
+* Veoh - **veoh**
+* Vimeo - **vimeo**
+* Yahoo - **yahoo**
+* Youtube - **youtube**
+* Youtube Custom Player - **youtubecp**
+* Youtube Playlist - **youtubepl**
 
 The tags accept a number of parameters. Justification, Width, Aspect Ratio and a text Blurb are all editable on a per tag basis.
 
+`[youtube id="gEzm4qMRC54" JUST="CENTER" SIZE="340" RATIO="16:9" BLURB="This is my test blurb" AUTOPLAY="20"]`
+`[youtube gEzm4qMRC54]`
 `[youtube=M5McvNTdEAE,LEFT,340,16:9,This is my test blurb,AUTOPLAY]`
 
 This will embed a youtube video left justified with a width of 340, aspect ratio of 16:9 and the blurb of "This is my test blurb" as its link.
 
 Ordering of these parameters does not matter, and no, its not case sensitive.
-
-= New Features =
-
-Options Menu has a new entry to control styling. Raw CSS is available to be tweaked on a site wide basis
-
-Added two new providers - MySpace Video and Daily Motion.
-
-Autoplay is now fully functional on Vimeo, Google and LiveLeak as well as Youtube Videos.
-
-Corrected a linking issue for Veoh and Liveleak
-
-**Deprecated Float Keyword**
 
 = Currently Supported Parameters =
 
@@ -48,7 +49,6 @@ Corrected a linking issue for Veoh and Liveleak
 * **Ratio** - Accepted Ratios are - 16:9 16:10 1:1 221:100 5:4 - All other provided values are set to 4:3 (the most common video ratio)
 * **Numerical Values** - If you provide any numerical values you are setting the width of your video.
 * **Alphanumeric Values** - When you post your video you may want to change the text value from the default to something descriptive or to caption something in the video.
-
 
 * Selected video players only:
 * **AUTOPLAY** - Autoplay video when loaded
@@ -87,9 +87,9 @@ I sure as hell can (probably...)! The process is quite simple and my turn around
 
 = What do you have planned for this? =
 
-Ultimately i see this plugin moving towards being more abstract. I dont foresee the embedding of video to be a situation where we have to embed them expressly, although i do like the current number of tags and how they are all separated. 
+Ultimately i see this plugin moving towards being more abstract. I dont foresee the embedding of video to be a situation where we have to embed them expressly, although i do like the current number of tags and how they are all separated.
 
-Adding an abstract [object][/object] may be useful, as well as an [embed][/embed] tag, for those as yet unsupported tags that people aren't asking for. 
+Adding an abstract [object][/object] may be useful, as well as an [embed][/embed] tag, for those as yet unsupported tags that people aren't asking for.
 
 We'll see where the populous wants this plugin to go. =)
 
@@ -98,6 +98,21 @@ We'll see where the populous wants this plugin to go. =)
 1. A passing glance at the adminisration interface, note the supported players listing.
 
 == Change Log ==
+
+= Version 3.0 =
+* Cleaned up some of the code
+* Moved to shortcodes
+* removed old and retired video players.
+* Update to include Youtube playlists
+* confirmed plugin works on 3.0.1 =D
+
+= Version 2.9.0 =
+* Added College Humor to List
+* Retired CNN and BrightCove
+* Retired Excerpts
+* Updated most video player embed formats
+* Moved to Shorttags, imposes some restrictions, but the overall code is much cleaner
+* Began migration to new format of parameter passing. 3.0 will retire old method.
 
 = Version 2.4.0 =
 * Added Yahoo and CNN video embedding support
@@ -133,18 +148,15 @@ We'll see where the populous wants this plugin to go. =)
 * Added Options Menu
 
 = Version 2.0.2 =
-
 * Added RevveR
 * Corrected some code (simplification)
 
 = Version 2.0.1 =
-
 * Added Blip.tv
 * Expanded on description to include information about the parameters
 * Added NOLINK parameter to be a per item option
 
 = Version 2.0 =
-
 * Complete Revision of Plugin from previous state
 * Added a number of parameters, consult description for further information
 * Added a different mechanism for parsing the Excerpt v. the Content of the post. 
