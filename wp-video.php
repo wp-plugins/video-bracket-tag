@@ -5,14 +5,14 @@ Plugin Name: Video Bracket Tag
 Plugin URI: http://blog.gneu.org/software-releases/video-bracket-tags/
 Description: Insert videos into posts using bracket method. 
 Author: Bob Chatman
-Version: 3.0
+Version: 3.1
 Author URI: http://blog.gneu.org
 
 */
 
 
 	class VideoParser
-	{
+	{ 
 		private static $Width = 0;
 		private static $Height = 0;
 		
@@ -20,22 +20,64 @@ Author URI: http://blog.gneu.org
 
 		function Install()
 		{
-			add_option("WPVID_MaxVideoWidth", 600);
-			add_option("WPVID_DefaultRatio"	, '4:3');
-			add_option("WPVID_IncludeLink"	, '1');
-			add_option("WPVID_AutoPlay"	, '0');
-			add_option("WPVID_DivFormatting", 'padding: 3px; margin: 6px; border: 1px solid #ccc;');
+			$GV_Vars = array("Version" => "3.1", "MaxVideoWidth" => 600, "DefaultRatio" => "4:3", "IncludeLink" => "1", "AutoPlay" => "0", "DivFormatting" => "padding: 3px; margin: 6px; border: 1px solid #ccc;");
+			
+		    add_option('GV_Vars', $GV_Vars);
+		}
+		
+		function Upgrade()
+		{
+			$GV_Vars = array("Version" => "3.1", "MaxVideoWidth" => 600, "DefaultRatio" => "4:3", "IncludeLink" => "1", "AutoPlay" => "0", "DivFormatting" => "padding: 3px; margin: 6px; border: 1px solid #ccc;");
+			$arrOld = get_option('GV_Vars');
+			
+			if ($arrOld !== false)
+			{
+				if ($arrOld['MaxVideoWidth'])
+					$GV_Vars['MaxVideoWidth'] = $arrOld['MaxVideoWidth'];
+				if ($arrOld['DefaultRatio'])
+					$GV_Vars['DefaultRatio'] = $arrOld['DefaultRatio'];
+				if ($arrOld['IncludeLink'])
+					$GV_Vars['IncludeLink'] = $arrOld['IncludeLink'];
+				if ($arrOld['AutoPlay'])
+					$GV_Vars['AutoPlay'] = $arrOld['AutoPlay'];
+				if ($arrOld['DivFormatting'])
+					$GV_Vars['DivFormatting'] = $arrOld['DivFormatting'];
+			}
+			else
+			{
+				if ($arrOld['MaxVideoWidth'])
+					$GV_Vars['MaxVideoWidth'] = get_option("WPVID_MaxVideoWidth");
+				if ($arrOld['DefaultRatio'])
+					$GV_Vars['DefaultRatio'] = get_option("WPVID_DefaultRatio");
+				if ($arrOld['IncludeLink'])
+					$GV_Vars['IncludeLink'] = get_option("WPVID_IncludeLink");
+				if ($arrOld['AutoPlay'])
+					$GV_Vars['AutoPlay'] = get_option("WPVID_AutoPlay");
+				if ($arrOld['DivFormatting'])
+					$GV_Vars['DivFormatting'] = get_option("WPVID_DivFormatting");
+			}
+			
+			delete_option("WPVID_MaxVideoWidth");
+			delete_option("WPVID_DefaultRatio");
+			delete_option("WPVID_IncludeLink");
+			delete_option("WPVID_AutoPlay");
+			delete_option("WPVID_DivFormatting");
+			
+		    add_option('GV_Vars', $GV_Vars);
 		}
 
 		function Reset()
 		{
-			update_option("WPVID_MaxVideoWidth", 600);
-			update_option("WPVID_DefaultRatio"	, '4:3');
-			update_option("WPVID_IncludeLink"	, '1');
-			update_option("WPVID_AutoPlay"	, '0');
-			update_option("WPVID_DivFormatting"	, 'padding: 3px; margin: 6px; border: 1px solid #ccc;');
+			$GV_Vars = array("Version" => "3.1", "MaxVideoWidth" => 600, "DefaultRatio" => "4:3", "IncludeLink" => "1", "AutoPlay" => "0", "DivFormatting" => "padding: 3px; margin: 6px; border: 1px solid #ccc;");
+			
+		    update_option('GV_Vars', $GV_Vars);
 		}
 
+		function Uninstall()
+		{
+			delete_option("GV_Vars");
+		}
+		
 		public static function getWidth($ratio = "4:3", $size)
 		{
 		    self::ValidateSize($ratio, $size);
@@ -91,18 +133,18 @@ Author URI: http://blog.gneu.org
 
 	    function getJustification($entry)
 		{
-			$Ret = "<div style='" . get_option('WPVID_DivFormatting');
+			$GV_Vars = get_option("GV_Vars");
+			$Ret = "<div style='" . $GV_Vars['DivFormatting'];
 
 			switch($entry['JUST'])
 			{
 				case "LEFT":
 				case "RIGHT":
 					$Ret .= "float: " . $entry['JUST'] . "'>";
-
 					break;
+					
 				default:
 					$Ret .= "' align='center'>";
-
 					break;
 			}
 
@@ -116,13 +158,17 @@ Author URI: http://blog.gneu.org
 		
 		function checkArgs($argv)
 		{
-            $Ret = array("ID" => null,
-				"RATIO" => get_option('WPVID_DefaultRatio'),
-				"JUST" => "CENTER",
-				"LINK" => get_option('WPVID_IncludeLink'),
-				"BLURB" => "",
-				"SIZE" => get_option('WPVID_MaxVideoWidth'),
-				"AUTOPLAY" => get_option('WPVID_AutoPlay'));
+			$GV_Vars = get_option("GV_Vars");
+			
+            $Ret = array(
+				"ID" 		=> null,
+				"RATIO" 	=> $GV_Vars['DefaultRatio'],
+				"JUST" 		=> "CENTER",
+				"LINK" 		=> $GV_Vars['IncludeLink'],
+				"BLURB" 	=> "",
+				"SIZE" 		=> $GV_Vars['MaxVideoWidth'],
+				"AUTOPLAY" 	=> $GV_Vars['AutoPlay']
+			);
 			
 			foreach (array_keys($argv) as $e)
 			{
@@ -207,8 +253,117 @@ Author URI: http://blog.gneu.org
 			
 			return $Ret;
 		}
+		
+		function Admin_Initialize()
+		{
+			register_setting('GV_Vars', 'GV_Vars', array('VideoParser', 'Validate'));
+			
+			add_settings_section('Video_Configurations', 'Video Configurations', array('VideoParser', 'VideoParser_Overview'), "GneuVideos_Configuration");
+			
+			add_settings_field('MaxVideoWidth', 'Max Video Width', array('VideoParser', 'VideoWidth_Control'), "GneuVideos_Configuration", 'Video_Configurations');
+			add_settings_field('DivFormatting', 'Formatting', array('VideoParser', 'Formatting_Control'), "GneuVideos_Configuration", 'Video_Configurations');
+			add_settings_field('DefaultRatio', 'Default Video Ratio', array('VideoParser', 'Ratio_Control'), "GneuVideos_Configuration", 'Video_Configurations');
+			add_settings_field('AutoPlay', 'Auto Play Videos', array('VideoParser', 'AutoPlay_Control'), "GneuVideos_Configuration", 'Video_Configurations');
+			add_settings_field('IncludeLink', 'Include Link to Original', array('VideoParser', 'IncludeLink_Control'), "GneuVideos_Configuration", 'Video_Configurations');
+		}
+		
+		function VideoWidth_Control()
+		{
+			$var = get_option('GV_Vars');
+			
+			?>
+            	<input id="VideoWidth" name="GV_Vars[MaxVideoWidth]" class="regular-text" value="<?php echo $var['MaxVideoWidth']; ?>" />
+			<?php
+		}
+		
+		function Formatting_Control()
+		{
+			$var = get_option('GV_Vars');
+			
+			?>
+            	<input id="Formatting" name="GV_Vars[DivFormatting]" class="regular-text" value="<?php echo $var['DivFormatting']; ?>" />
+			<?php
+		}
+		
+		function Ratio_Control()
+		{
+			$var = get_option('GV_Vars');
+			$Ratios = array("1:1", "16:10", "16:9", "221:100", "4:3", "5:4");
 
-		function VideoAdministrationMenu()
+			$checked = 'selected="selected"';
+			?>
+            <select name="GV_Vars[DefaultRatio]" title="Default Ratio" >
+           	<?php foreach ($Ratios as $e) : ?>
+            	<option value="<?php echo $e; ?>" <?php echo ($var['DefaultRatio'] == $e ? $checked : ""); ?>><?php echo $e; ?></option>
+            <?php endforeach; ?>
+            </select>
+            <?php
+		}
+		
+		function IncludeLink_Control()
+		{
+			$var = get_option('GV_Vars');
+			
+			$checked = 'checked="checked"';
+			?>
+            	<label for="IncludeLinkOn" ><input type="radio" id="IncludeLinkOn" name="GV_Vars[IncludeLink]" class="regular-radio" value="1" <?php echo ($var['IncludeLink'] == 1 ? $checked : ""); ?> /> On</label>
+				<label for="IncludeLinkOff" ><input type="radio" id="IncludeLinkOff" name="GV_Vars[IncludeLink]" class="regular-radio" value="0" <?php echo ($var['IncludeLink'] == 0 ? $checked : ""); ?> /> Off</label>
+			<?php
+		}
+		
+		function AutoPlay_Control()
+		{
+			$var = get_option('GV_Vars');
+			
+			$checked = 'checked="checked"';
+			?>
+            	<label for="AutoPlayOn" ><input type="radio" id="AutoPlayOn" name="GV_Vars[AutoPlay]" class="regular-radio" value="1" <?php echo ($var['AutoPlay'] == 1 ? $checked : ""); ?> /> On</label>
+				<label for="AutoPlayOff" ><input type="radio" id="AutoPlayOff" name="GV_Vars[AutoPlay]" class="regular-radio" value="0" <?php echo ($var['AutoPlay'] == 0 ? $checked : ""); ?> /> Off</label>
+			<?php
+		}
+		
+		function VideoParser_Overview()
+		{
+			?>
+    			<p>Supported Players: Youtube, Youtube Custom Player, College Humor, Google, Vimeo, Veoh, LiveLeak, Blip.tv, Revver, Daily Motion, MySpace, Hulu, Yahoo</p>
+			<?php
+		}
+		
+		function Validate($input)
+		{
+			$Ratios = array("1:1", "16:10", "16:9", "221:100", "4:3", "5:4");
+
+			$GV_Vars = get_option('GV_Vars');
+			
+			if (array_key_exists('AutoPlay', $input))
+				$GV_Vars['AutoPlay'] = ($input['AutoPlay'] ? 1 : 0);
+			
+			if (array_key_exists('IncludeLink', $input))
+				$GV_Vars['IncludeLink'] = ($input['IncludeLink'] ? 1 : 0);
+				
+			if (array_key_exists('MaxVideoWidth', $input))
+			{
+				if (sprintf("%.0f", $input['MaxVideoWidth']) == $input['MaxVideoWidth'])
+					$GV_Vars['MaxVideoWidth'] = $input['MaxVideoWidth'];
+				else
+					add_settings_error('GV_Vars', 'settings_updated', __('Only integers are accepted.'));
+				
+			}
+			if (array_key_exists('DivFormatting', $input))
+				$GV_Vars['DivFormatting'] = $input['DivFormatting'];
+			
+			if (array_key_exists('DefaultRatio', $input))
+			{
+				if (array_search($input['DefaultRatio'], $Ratios) !== false)
+					$GV_Vars['DefaultRatio'] = $input["DefaultRatio" ];				
+				else
+					add_settings_error('GV_Vars', 'settings_updated', __('Only the following are valid ratios: ' . join(" ", $Ratios)));
+			}			
+			
+			return $GV_Vars;
+		}
+
+		function Admin_Menus()
 		{
 			global $user_level;
 			get_currentuserinfo();
@@ -220,93 +375,28 @@ Author URI: http://blog.gneu.org
 				return;
 
 			if (function_exists('add_options_page'))
-				add_options_page("Video Settings", "Configure Videos", 'manage_options', __FILE__, array('VideoParser', 'VideoAdministrationMenu_Form'));
-
+				add_options_page("Video Settings", "Configure Videos", 'manage_options', __FILE__, array('VideoParser', 'Configuration'));
 		}
 
-		function VideoAdministrationMenu_Form()
+		function Configuration()
 		{
-			if( function_exists( 'is_site_admin' ) )
-				if( !is_site_admin() )
-					return;
-
-			$Ratios = array("1:1", "16:10", "16:9", "221:100", "4:3", "5:4");
-
-			if(isset($_POST) && $_POST['Action'] && check_admin_referer('plugin-name-action_WPVID'))
-			{
-                if ($_POST['Submit'] == "Reset Values")
-                {
-                    VideoParser::Reset();
-
-    				$message = "<strong>Your Settings Have Been Reset.</strong>";
-                }
-                else
-                {
-    				if (ctype_digit($_POST['WPVID_MaxVideoWidth']))
-    					update_option('WPVID_MaxVideoWidth', (int)$_POST['WPVID_MaxVideoWidth']);
-
-    				update_option('WPVID_IncludeLink', $_POST['WPVID_IncludeLink'] == "on" ? "1" : "0");
-    				update_option('WPVID_AutoPlay', $_POST['WPVID_AutoPlay'] == "on" ? "1" : "0");
-
-    				if (in_array($_POST['WPVID_DefaultRatio'], $Ratios))
-    					update_option('WPVID_DefaultRatio', $_POST['WPVID_DefaultRatio']);
-
-                    update_option("WPVID_DivFormatting"	, $_POST['WPVID_DivFormatting']);
-
-    				$message = "<strong>Settings saved.</strong>";
-                }
-			}
-
+			$GV_Vars = get_option('GV_Vars');
+			
 			?>
-<?php if ($message) : ?>
-<div id="message" class="updated fade">
-	<p><?php echo $message; ?></p>
-</div>
-<?php endif; ?>
-<div class="wrap">
-	<div id="icon-options-general" class="icon32"><br></div><h2>Configure Embedded Video Options</h2>
-	<p>Supported Players: Youtube, Youtube Custom Player, College Humor, Google, Vimeo, Veoh, LiveLeak, Blip.tv, Revver, Daily Motion, MySpace, Hulu, Yahoo</p>
-<form name="submit_video_options" action="" method="post">
-	<?php if ( function_exists('wp_nonce_field') ) { wp_nonce_field('plugin-name-action_WPVID'); } ?>
-	<table class="form-table">
-		<tr>
-			<th scope="row" style="text-align:right; vertical-align:top;"> Maximum Embedded Video Width (Pixels): </th>
-			<td><input size="5" name="WPVID_MaxVideoWidth" value="<?php echo (int)get_option('WPVID_MaxVideoWidth'); ?>"/>
-			</td>
-		</tr>
-		<tr>
-			<th scope="row" style="text-align:right; vertical-align:top;"> Embedded Video Styling: </th>
-			<td><input size="35" name="WPVID_DivFormatting" value="<?php echo get_option('WPVID_DivFormatting'); ?>"/>
-			</td>
-		</tr>
-		<tr>
-			<th scope="row" style="text-align:right; vertical-align:top;"> Show Video Links By Default: </th>
-			<td><input type="checkbox" name="WPVID_IncludeLink" <?php echo get_option('WPVID_IncludeLink') == "1" ? "checked='1'" : ""; ?>/>
-			</td>
-		</tr>
-		<tr>
-			<th scope="row" style="text-align:right; vertical-align:top;"> Auto Play Videos: </th>
-			<td><input type="checkbox" name="WPVID_AutoPlay" <?php echo get_option('WPVID_AutoPlay') == "1" ? "checked='1'" : ""; ?>/> <small>*Be very careful with this one.</small>
-			</td>
-		</tr>
-		<tr>
-			<th scope="row" style="text-align:right; vertical-align:top;"> Default Video Aspect Ratio: </th>
-			<td><select name="WPVID_DefaultRatio">
-					<?php foreach ($Ratios as $el) : ?>
-					<option value="<?php print $el; ?>" <?php echo get_option('WPVID_DefaultRatio') == $el ? "selected" : ""; ?>><?php print $el; ?></option>
-					<?php endforeach; ?>
-				</select>
-			</td>
-		</tr>
-	</table>
-	<p class="submit">
-		<input type="hidden" name="Action" value="WPVID_SubmitValues" />
-		<input type="submit" name="Submit" class="button-primary" value="Save Changes"> 
-		<input type="submit" name="Submit" value="Reset Values" />
-	</p>
-</form>
-</div>
-<?php
+                <div class="wrap">
+                    <?php screen_icon("options-general"); ?>
+                    <h2>Video Bracket Tags <?php echo $GV_Vars['Version']; ?></h2>
+                    <form action="options.php" method="post">
+                        <?php settings_fields('GV_Vars'); ?>
+                        <?php do_settings_sections('GneuVideos_Configuration'); ?>
+                        <p class="submit">
+                            <input name="Submit" type="submit" class="button-primary" value="<?php esc_attr_e('Save Changes'); ?>" />
+                        </p>
+                    </form>
+                    <h3>Preview</h3>
+                    <?php echo VideoParser::youtube(array('ID' => 'nhn56SJsyzg')); ?>
+                </div> 
+			<?php 
 		}
 
 		function youtube($arr)
@@ -325,6 +415,7 @@ Author URI: http://blog.gneu.org
 						<embed src='http://www.youtube.com/v/{$arr['ID']}" . ( $arr['AUTOPLAY'] == "1" ? "&autoplay=1" : "&autoplay=0" ) . "' type='application/x-shockwave-flash' wmode='transparent' width='" . self::getWidth($arr['RATIO'], $arr['SIZE']) . "' height='" . self::getHeight($arr['RATIO'], $arr['SIZE']) . "'></embed>
 					 </object>" . ( $arr['LINK'] ? "<br /><center><a href='http://www.youtube.com/watch?v={$arr['ID']}&eurl={$_SERVER['SCRIPT_URI']}'>{$arr['BLURB']}</a></center>" : "" ) . self::getEndJustification($arr);
 		}
+		
 		function youtubepl($arr)
 		{
 			$arr = self::checkArgs($arr);
@@ -571,9 +662,9 @@ Author URI: http://blog.gneu.org
 		}
 	}
 
-	if ( get_option('WPVID_MaxVideoWidth') == "" )
-		VideoParser::Install();
-
+	if ( get_option('GV_Vars') === false)
+		VideoParser::Upgrade();
+		
 	add_shortcode('collegehumor', array('VideoParser', 'collegehumor'));
 	add_shortcode('youtube', array('VideoParser', 'youtube'));
 	add_shortcode('youtubecp', array('VideoParser', 'youtubecp'));
@@ -589,7 +680,8 @@ Author URI: http://blog.gneu.org
 	add_shortcode('hulu', array('VideoParser', 'hulu'));
 	add_shortcode('yahoo', array('VideoParser', 'yahoo'));
 
-	// Link the options page 
-	add_action('admin_menu', array('VideoParser', 'VideoAdministrationMenu'));
-	
+	// Link the options page 	
+	add_action('admin_menu', array('VideoParser', 'Admin_Menus'));
+	add_action('admin_init', array('VideoParser', 'Admin_Initialize'));
+		
 ?>

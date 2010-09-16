@@ -4,7 +4,7 @@ Donate link: http://blog.gneu.org/
 Tags: video, formatting, embed, youtube, youtube custom player, google, vimeo, liveleak, veoh, bliptv, revver, dailymotion, myspace, hulu, yahoo, collegehumor, configurable, autoplay
 Requires at least: 2.5.0
 Tested up to: 3.0.1
-Stable tag: 3.0
+Stable tag: 3.1
 
 Insert videos into posts using bracket method. 
 
@@ -98,6 +98,12 @@ We'll see where the populous wants this plugin to go. =)
 1. A passing glance at the adminisration interface, note the supported players listing.
 
 == Change Log ==
+
+= Version 3.1 =
+* Setting API Implemented for admin panel
+* Moved to an array for variables
+* Corrected Admin Interface not showing up
+* Added Preview to the configuration page
 
 = Version 3.0 =
 * Cleaned up some of the code
