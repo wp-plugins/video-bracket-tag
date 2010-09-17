@@ -5,14 +5,15 @@ Plugin Name: Video Bracket Tag
 Plugin URI: http://blog.gneu.org/software-releases/video-bracket-tags/
 Description: Insert videos into posts using bracket method. 
 Author: Bob Chatman
-Version: 3.1.1
+Version: 3.1.2
 Author URI: http://blog.gneu.org
 
 */
 
+	define('VP_VERSION', '3.1.2');
 
 	class VideoParser
-	{ 
+	{  
 		private static $Width = 0;
 		private static $Height = 0;
 		
@@ -20,14 +21,14 @@ Author URI: http://blog.gneu.org
 
 		function Install()
 		{
-			$GV_Vars = array("Version" => "3.1.1", "MaxVideoWidth" => 600, "DefaultRatio" => "4:3", "IncludeLink" => "1", "AutoPlay" => "0", "DivFormatting" => "padding: 3px; margin: 6px; border: 1px solid #ccc;");
+			$GV_Vars = array("Version" => VP_VERSION, "MaxVideoWidth" => 600, "DefaultRatio" => "4:3", "IncludeLink" => "1", "AutoPlay" => "0", "DivFormatting" => "padding: 3px; margin: 6px; border: 1px solid #ccc;");
 			
 		    add_option('GV_Vars', $GV_Vars);
 		}
 		
 		function Upgrade()
 		{
-			$GV_Vars = array("Version" => "3.1.1", "MaxVideoWidth" => 600, "DefaultRatio" => "4:3", "IncludeLink" => "1", "AutoPlay" => "0", "DivFormatting" => "padding: 3px; margin: 6px; border: 1px solid #ccc;");
+			$GV_Vars = array("Version" => VP_VERSION, "MaxVideoWidth" => 600, "DefaultRatio" => "4:3", "IncludeLink" => "1", "AutoPlay" => "0", "DivFormatting" => "padding: 3px; margin: 6px; border: 1px solid #ccc;");
 			$arrOld = get_option('GV_Vars');
 			
 			if ($arrOld !== false)
@@ -42,6 +43,8 @@ Author URI: http://blog.gneu.org
 					$GV_Vars['AutoPlay'] = $arrOld['AutoPlay'];
 				if ($arrOld['DivFormatting'])
 					$GV_Vars['DivFormatting'] = $arrOld['DivFormatting'];
+			
+			    update_option('GV_Vars', $GV_Vars);
 			}
 			else
 			{
@@ -55,6 +58,8 @@ Author URI: http://blog.gneu.org
 					$GV_Vars['AutoPlay'] = get_option("WPVID_AutoPlay");
 				if ($arrOld['DivFormatting'])
 					$GV_Vars['DivFormatting'] = get_option("WPVID_DivFormatting");
+			
+		   		add_option('GV_Vars', $GV_Vars);
 			}
 			
 			delete_option("WPVID_MaxVideoWidth");
@@ -62,13 +67,11 @@ Author URI: http://blog.gneu.org
 			delete_option("WPVID_IncludeLink");
 			delete_option("WPVID_AutoPlay");
 			delete_option("WPVID_DivFormatting");
-			
-		    add_option('GV_Vars', $GV_Vars);
 		}
 
 		function Reset()
 		{
-			$GV_Vars = array("Version" => "3.1.1", "MaxVideoWidth" => 600, "DefaultRatio" => "4:3", "IncludeLink" => "1", "AutoPlay" => "0", "DivFormatting" => "padding: 3px; margin: 6px; border: 1px solid #ccc;");
+			$GV_Vars = array("Version" => VP_VERSION, "MaxVideoWidth" => 600, "DefaultRatio" => "4:3", "IncludeLink" => "1", "AutoPlay" => "0", "DivFormatting" => "padding: 3px; margin: 6px; border: 1px solid #ccc;");
 			
 		    update_option('GV_Vars', $GV_Vars);
 		}
@@ -665,7 +668,7 @@ Author URI: http://blog.gneu.org
 	}
 
 	$GV_Vars = get_option('GV_Vars');
-	if ( $GV_Vars === false || $GV_Vars['Version'] != "3.1.1")
+	if ( $GV_Vars === false || $GV_Vars['Version'] != VP_VERSION)
 		VideoParser::Upgrade();
 		
 	add_shortcode('collegehumor', array('VideoParser', 'collegehumor'));
