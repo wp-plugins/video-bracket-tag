@@ -5,7 +5,7 @@ Plugin Name: Video Bracket Tag
 Plugin URI: http://blog.gneu.org/software-releases/video-bracket-tags/
 Description: Insert videos into posts using bracket method. 
 Author: Bob Chatman
-Version: 3.1
+Version: 3.1.1
 Author URI: http://blog.gneu.org
 
 */
@@ -20,14 +20,14 @@ Author URI: http://blog.gneu.org
 
 		function Install()
 		{
-			$GV_Vars = array("Version" => "3.1", "MaxVideoWidth" => 600, "DefaultRatio" => "4:3", "IncludeLink" => "1", "AutoPlay" => "0", "DivFormatting" => "padding: 3px; margin: 6px; border: 1px solid #ccc;");
+			$GV_Vars = array("Version" => "3.1.1", "MaxVideoWidth" => 600, "DefaultRatio" => "4:3", "IncludeLink" => "1", "AutoPlay" => "0", "DivFormatting" => "padding: 3px; margin: 6px; border: 1px solid #ccc;");
 			
 		    add_option('GV_Vars', $GV_Vars);
 		}
 		
 		function Upgrade()
 		{
-			$GV_Vars = array("Version" => "3.1", "MaxVideoWidth" => 600, "DefaultRatio" => "4:3", "IncludeLink" => "1", "AutoPlay" => "0", "DivFormatting" => "padding: 3px; margin: 6px; border: 1px solid #ccc;");
+			$GV_Vars = array("Version" => "3.1.1", "MaxVideoWidth" => 600, "DefaultRatio" => "4:3", "IncludeLink" => "1", "AutoPlay" => "0", "DivFormatting" => "padding: 3px; margin: 6px; border: 1px solid #ccc;");
 			$arrOld = get_option('GV_Vars');
 			
 			if ($arrOld !== false)
@@ -68,7 +68,7 @@ Author URI: http://blog.gneu.org
 
 		function Reset()
 		{
-			$GV_Vars = array("Version" => "3.1", "MaxVideoWidth" => 600, "DefaultRatio" => "4:3", "IncludeLink" => "1", "AutoPlay" => "0", "DivFormatting" => "padding: 3px; margin: 6px; border: 1px solid #ccc;");
+			$GV_Vars = array("Version" => "3.1.1", "MaxVideoWidth" => 600, "DefaultRatio" => "4:3", "IncludeLink" => "1", "AutoPlay" => "0", "DivFormatting" => "padding: 3px; margin: 6px; border: 1px solid #ccc;");
 			
 		    update_option('GV_Vars', $GV_Vars);
 		}
@@ -411,8 +411,10 @@ Author URI: http://blog.gneu.org
 
 			return self::getJustification($arr) . "<object width='" . self::getWidth($arr['RATIO'], $arr['SIZE']) . "' height='" . self::getHeight($arr['RATIO'], $arr['SIZE']) . "'>
 						<param name='movie' value='{$arr['ID']}'></param>
+<param name='allowFullScreen' value='true'></param>
+<param name='allowscriptaccess' value='always'></param>
 						<param name='wmode' value='transparent' ></param>
-						<embed src='http://www.youtube.com/v/{$arr['ID']}" . ( $arr['AUTOPLAY'] == "1" ? "&autoplay=1" : "&autoplay=0" ) . "' type='application/x-shockwave-flash' wmode='transparent' width='" . self::getWidth($arr['RATIO'], $arr['SIZE']) . "' height='" . self::getHeight($arr['RATIO'], $arr['SIZE']) . "'></embed>
+						<embed src='http://www.youtube.com/v/{$arr['ID']}?fs=1" . ( $arr['AUTOPLAY'] == "1" ? "&autoplay=1" : "&autoplay=0" ) . "' type='application/x-shockwave-flash' wmode='transparent' width='" . self::getWidth($arr['RATIO'], $arr['SIZE']) . "' height='" . self::getHeight($arr['RATIO'], $arr['SIZE']) . "' allowscriptaccess='always' allowfullscreen='true'></embed>
 					 </object>" . ( $arr['LINK'] ? "<br /><center><a href='http://www.youtube.com/watch?v={$arr['ID']}&eurl={$_SERVER['SCRIPT_URI']}'>{$arr['BLURB']}</a></center>" : "" ) . self::getEndJustification($arr);
 		}
 		
@@ -662,7 +664,8 @@ Author URI: http://blog.gneu.org
 		}
 	}
 
-	if ( get_option('GV_Vars') === false)
+	$GV_Vars = get_option('GV_Vars');
+	if ( $GV_Vars === false || $GV_Vars['Version'] != "3.1.1")
 		VideoParser::Upgrade();
 		
 	add_shortcode('collegehumor', array('VideoParser', 'collegehumor'));
